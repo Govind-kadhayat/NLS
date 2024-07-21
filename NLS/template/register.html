@@ -34,32 +34,37 @@
             <div class="col-md-6 col-lg-5">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="text-center mb-4">Login</h3>
+                        <h3 class="text-center mb-4">Register</h3>
                         <form method="post" novalidate>
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="id_username" class="form-label">FullName</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="name@example.com">
+                                <input type="text" class="form-control" id="exampleFormControlInput1" name="name"
+                                    placeholder="Enter Your name">
                             </div>
                             <div class="mb-3">
                                 <label for="id_password" class="form-label">Email</label>
-                                <input type="password" class="form-control" id="id_password"
+                                <input type="email" class="form-control" id="id_eamil" name="email"
+                                    placeholder="name@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_password" class="form-label">password</label>
+                                <input type="password" class="form-control" id="id_password" name="password"
                                     placeholder="Input your password ">
                             </div>
                             <div class="mb-3">
                                 <label for="id_password" class="form-label">Phno</label>
-                                <input type="password" class="form-control" id="id_password"
+                                <input type="tel" class="form-control" id="id_phone" name="phone"
                                     placeholder="Provide your phone no  ">
                             </div>
                             <div class="mb-3">
                                 <label for="id_password" class="form-label">Address</label>
-                                <input type="password" class="form-control" id="id_password"
+                                <input type="text" class="form-control" id="id_address" name="address"
                                     placeholder="Type your Address ">
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-block">
-                                    Login
+                                    Sign Up
                                 </button>
                             </div>
                             <div class="text-center mt-3">

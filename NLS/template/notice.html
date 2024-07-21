@@ -1,0 +1,25 @@
+{% extends 'home.html' %} {% block title %} Conatct Us{% endblock title %} {%block body %}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Emial</th>
+            <th scope="col">Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in data %}
+        <tr>
+            <th scope="row">#</th>
+            <td>{{i.name}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.address}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock body %}
