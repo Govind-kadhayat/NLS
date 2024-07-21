@@ -1,0 +1,169 @@
+{% extends 'home.html' %} {% block title %} Conatct Us{% endblock title %}
+{% block body %} <div class="">
+    <div class="col-12 text-center position-relative ">
+        <img src="https://cdn.vectorstock.com/i/1000v/44/36/driving-instructor-sits-in-car-next-vector-47044436.avif"
+            alt="Contact Us" class="img-fluid" style="object-fit: cover" />
+    </div>
+
+    <style>
+        .img-fluid {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+
+        }
+    </style>
+
+    <div class="contaner">
+        <div class="row" style="align-items: center;">
+
+            <div class="container">
+                <div
+                    style="background-color: #111fe5; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;">
+                    <p style="font-size: 18px; color: #f7f7f7;">Please fill the form for the contact us</p>
+                </div>
+
+
+
+            </div>
+
+
+            <div class="list-group col-6 " style=" margin-left: 28%;">
+
+
+
+                <div class=" form-inner" style="
+                              padding: 30px;
+                            background: #ffffff;
+                            border-radius: 20px;
+                            box-shadow: 0px 0px 120px rgba(0, 0, 0, 0.1);
+                            position: relative;
+                            display: block;
+                          ">
+                    <form class="default-form main-form" method="post" action="/contact">
+                        {% csrf_token %}
+                        <div class="content-box ml-30">
+                            <div class="form-group row ">
+
+                                <div class="col-sm-6">
+                                    <label for="fullname" class="col-form-label">Full Name</label>
+                                    <br />
+                                    <input type="text" class="form-control" name="name" id="fullname"
+                                        formControlName="FullName" />
+                                    <div class="text-danger"></div>
+                                </div>
+                                <div class="col-lg-6  form-group">
+                                    <div class="col-auto">
+                                        <label for="email" class="col-form-label">Email</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="email" id="email" name="email" class="form-control"
+                                            formControlName="Email" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="my-4">
+                                <div class="row g-3 align-items-center">
+
+                                    <div class="col-sm-6">
+                                        <label for="address" class="col-form-label">Address</label>
+                                        <br />
+                                        <input type="text" class="form-control" id="address" name="address"
+                                            formControlName="address" />
+                                        <div class="text-danger"></div>
+                                    </div>
+
+
+
+
+                                    <div class="col-lg-6  form-group">
+                                        <div class="col-auto">
+                                            <label for="conatct-no" class="col-form-label">Contact No </label>
+                                        </div>
+                                        <div class="col-auto">
+                                            <input type="text" id="conatct-no" class="form-control"
+                                                formControlName="ContactNo" name="phone">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="mb-6 col-lg-6 form-group">
+                                    <label for="exampleFormControlTextarea1" class="form-label"> Complain Box</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="desc"
+                                        formControlName="Statement"></textarea>
+                                </div>
+                                <div class="mb-6 col-lg-6 form-group">
+
+                                    <br>
+                                    Date Of Birth:
+                                    <input type="datetime-local" id="Test_DatetimeLocal" name="date">
+
+                                </div>
+                            </div>
+
+                            <div class="top-100 start-50 mt-3 d-flex justify-content-center ">
+                                <button type="submit" class="btn btn-success btn-md" id="button-1">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- 
+                <div class="container" style="border-style: dashed;">
+
+
+
+                    <div class="mb-3 row">
+                        <label for="Email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="Email">
+                        </div>
+
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="name" class="col-sm-2 col-form-label">Full Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name">
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="mb-3 row">
+                        <label for="Address" class="col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" id="Address">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="phoneno" class="col-sm-2 col-form-label">Contact no</label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" id="phoneno">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="Description" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="Description">
+                        </div>
+                    </div>
+
+                </div> -->
+        </div>
+
+
+    </div>
+
+</div> {% endblock body %}
