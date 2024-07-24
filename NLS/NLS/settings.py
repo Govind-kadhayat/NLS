@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'NepalLicenseScholar.apps.NepallicensescholarConfig',
+    'django_extensions',
+
 ]
 
 MIDDLEWARE = [
