@@ -64,15 +64,14 @@ def register(request):
 
 def notice(request):
 
-    data = Signup.objects.all()
+    # data = Signup.objects.all()
+    contex = {'categories':Category.objects.all()}
 
-    user = {
-        'data':data,
+    # user = {
+    #     'data':data,}
 
-    }
-    return render(request,"notice.html",user)
-
-
+    
+    return render(request,"notice.html",contex)
 
 
 
@@ -91,7 +90,6 @@ def get_quiz(request):
                 "marks":question_obj.marks,
                 "ansswer":question_obj.get_answer()
          })
-
 
 
         payload = {'status':True,'data':data}
