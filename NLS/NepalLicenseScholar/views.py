@@ -98,3 +98,7 @@ def get_quiz(request):
     except Exception as e:
         print(e)
     return HttpResponse("Some thing went wrong")
+
+
+def side_bar(request):
+        return render(request,"main/side_bar.html")

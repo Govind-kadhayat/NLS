@@ -10,5 +10,6 @@ urlpatterns = [
     path("login", views.login, name='login'),
     path("register", views.register, name='register'),
     path("notice", views.notice, name='notice'),
-    path('api/qustion',views.get_quiz, name="get_quiz")
+    path('api/qustion',views.get_quiz, name="get_quiz"),
+    path('main/side_bar',views.side_bar, name="side_bar")
 ]
