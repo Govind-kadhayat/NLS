@@ -1,0 +1,66 @@
+{% extends 'main/side_bar.html' %} {% block title %} {% endblock title %}
+{% block body %}
+
+
+
+
+<div class="bg-light flex-fill">
+    <div class="p-2 d-md-none d-flex text-white bg-success">
+        <a href="#" class="text-white" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
+            <i class="fa-solid fa-bars"></i>
+        </a>
+        <span class="ms-3">GFG Portal</span>
+    </div>
+    <div class="p-4">
+        <nav style="--bs-breadcrumb-divider:'>';font-size:14px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <i class="fa-solid fa-house"></i>
+                </li>
+                <li class="breadcrumb-item">Learning Content</li>
+                <li class="breadcrumb-item">Next Page</li>
+            </ol>
+        </nav>
+
+        <hr>
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="container" st>
+                            <div class="cart mt-5" style="text-align: center;">
+                                <div class="ul">
+                                    <div class="li">
+                                        Username :Ram
+                                    </div>
+                                    <div class="li">
+                                        Email:Ram @gmail.com
+                                    </div>
+                                    <div class="li">
+                                        Age:21
+                                    </div>
+                                    <div class="li">
+                                        Gender:Male
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="container">
+                            <img src="https://imgs.search.brave.com/mYuKqM8YeN3Xo0rk0ioz3wRsMz8tw2c9O8pUk5uohlI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyLnBuZw"
+                                alt="image not found ">
+                            <div class="card-body">
+                                Profile Picture image
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock body %}

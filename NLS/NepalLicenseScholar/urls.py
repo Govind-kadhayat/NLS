@@ -11,5 +11,7 @@ urlpatterns = [
     path("register", views.register, name='register'),
     path("notice", views.notice, name='notice'),
     path('api/qustion',views.get_quiz, name="get_quiz"),
-    path('main/side_bar',views.side_bar, name="side_bar")
+    path('main/side_bar',views.side_bar, name="side_bar"),
+    path('main/profile',views.profile, name="profile"),
+    path('main/study',views.study, name="study"),
 ]

@@ -102,3 +102,10 @@ def get_quiz(request):
 
 def side_bar(request):
         return render(request,"main/side_bar.html")
+
+def profile(request):
+        return render(request,"main/profile.html")
+
+def study(request):
+        return render(request,"main/study.html")
+

@@ -1,4 +1,3 @@
-{%block body %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    {% block title %} Conatct {% endblock title %}
+    {% block title %} {% endblock title %}
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -44,7 +43,6 @@
                 </li> -->
             </ul>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <img src="cinqueterre.jpg" class="rounded-circle" alt="Cinque Terre">
                 <button class="btn btn-outline-success" type="submit">Profile</button>
             </form>
@@ -111,17 +109,47 @@
         <hr>
         <ul class="mynav nav nav-pills flex-column mb-auto">
             <li class="nav-item mb-1">
-                <a href="#">
+                <a href="profile.html">
                     <i class="fa fa-user" aria-hidden="true"></i>
                     Profile
                 </a>
             </li>
 
-            <li class="nav-item mb-1">
-                <a href="#">
+            <li class="sidebar-item  nav-item mb-1">
+
+                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Study"
+                    aria-expanded="false" aria-controls="Study">
                     <i class="fa fa-book" aria-hidden="true"></i>
-                    Study Material
+
+                    <span class="topic">Study Materila </span>
                 </a>
+                <ul id="Study" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-sign-out-alt pe-2"></i>
+                            <span class="topic">Bike</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-sign-out-alt pe-2"></i>
+                            <span class="topic">Car</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-sign-out-alt pe-2"></i>
+                            <span class="topic">Light Vehical</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-sign-out-alt pe-2"></i>
+                            <span class="topic">Heavy Vehical</span>
+                        </a>
+                    </li>
+                </ul>
+
             </li>
             <li class="nav-item mb-1">
                 <a href="#">
@@ -129,7 +157,10 @@
                     Test your Self
                 </a>
             </li>
+
+
             <li class="sidebar-item  nav-item mb-1">
+
                 <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#settings"
                     aria-expanded="false" aria-controls="settings">
                     <i class="fa fa-cog" aria-hidden="true"></i>
@@ -148,7 +179,6 @@
         </ul>
         <hr>
         <div class="d-flex">
-
             <i class="fa-solid fa-book  me-2"></i>
             <span>
                 <h6 class="mt-1 mb-0">
@@ -158,33 +188,8 @@
         </div>
     </div>
 
-    <div class="bg-light flex-fill">
-        <div class="p-2 d-md-none d-flex text-white bg-success">
-            <a href="#" class="text-white" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
-                <i class="fa-solid fa-bars"></i>
-            </a>
-            <span class="ms-3">GFG Portal</span>
-        </div>
-        <div class="p-4">
-            <nav style="--bs-breadcrumb-divider:'>';font-size:14px">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <i class="fa-solid fa-house"></i>
-                    </li>
-                    <li class="breadcrumb-item">Learning Content</li>
-                    <li class="breadcrumb-item">Next Page</li>
-                </ol>
-            </nav>
 
-            <hr>
-            <div class="row">
-                <div class="col">
-                    <p>Page content goes here</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    {%block body %}
+    This is body part
+    {% endblock body %}
 </div>
-
-{% endblock body %}
