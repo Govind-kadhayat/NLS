@@ -1,0 +1,25 @@
+{% extends 'home.html' %} {% block title %} Conatct Us{% endblock title %} {%block body %}
+
+
+<body>
+    <form>
+        <div class="container">
+            <form>
+                <div class="row mt-5 mb-5 pt-5 ">
+                    <select class="form-control"name="category">
+                        <option value="Choose">Select the Categories</option>
+                        {% for Category in categories %}
+                        <option value="{{Category.category_name}}">{{Category.category_name}}</option>
+
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-danger mb-3">Submit</button>
+
+            </form>
+
+        </div>
+    </form>
+
+</body>
+{% endblock body %}

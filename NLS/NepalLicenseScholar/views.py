@@ -1,5 +1,5 @@
 from django.http.response import HttpResponse,JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from datetime import datetime
 from.models import *
 import random
@@ -58,47 +58,41 @@ def register(request):
             date=datetime.now()  
         )
          signup.save()
-
-
     return render(request,"register.html")
 
 def notice(request):
-
-    # data = Signup.objects.all()
-    contex = {'categories':Category.objects.all()}
-
-    # user = {
-    #     'data':data,}
-
-    
-    return render(request,"notice.html",contex)
-
-
-
+    return render(request,"notice.html")
 
 
 def get_quiz(request):
     try:
-        question_objs = list(Question.objects.all())
-        data =[]
-        random.shuffle(question_objs)
+        question_objs = Question.objects.all()
+        
+        
+        if request.GET.get('category'):
 
+            category_filter = request.GET.get('category')
+            
+            question_objs = question_objs.filter(category__category_name__icontains=request.GET.get('category'))
+
+        question_objs = list(question_objs)
+        data = []
+        random.shuffle(question_objs)  
+      
         for question_obj in question_objs:
             data.append({
-                "Category": question_obj.Category.category_name,
-                "question":question_obj.question,
-                "marks":question_obj.marks,
-                "ansswer":question_obj.get_answer()
-         })
+                "Category": question_obj.category.category_name,  
+                "question": question_obj.question, 
+                "marks": question_obj.marks,  
+                "Answer": question_obj.get_answer(),  
+            })
 
-
-        payload = {'status':True,'data':data}
-        return JsonResponse(payload)
+        payload = {'status': True, 'data': data}
+        return JsonResponse(payload)  
 
     except Exception as e:
-        print(e)
-    return HttpResponse("Some thing went wrong")
-
+        print(e) 
+        return HttpResponse("Something went wrong")  
 
 def side_bar(request):
         return render(request,"main/side_bar.html")
@@ -108,4 +102,16 @@ def profile(request):
 
 def study(request):
         return render(request,"main/study.html")
+def tax(request):
+        return render(request,"tax.html")
 
+def test(request):
+        context = {'categories':Category.objects.all()}
+        if request.GET.get('category'):
+            return redirect(f"/testq/?category={request.GET.get('category')}")
+        return render(request,"test.html",context)
+
+
+def testq(request):
+    
+    return render(request ,"testq.html")

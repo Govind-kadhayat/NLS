@@ -1,20 +1,40 @@
 {% extends 'home.html' %} {% block title %} Conatct Us{% endblock title %}
 {%block body %}
-<form>
-    <div class="container">
-        <div class="row mt-5 mb-5 pt-5 ">
-            <select class="form-control" aria-label="Default select example">
-                <option value="Choose">Select the Categories</option>
-                {% for Category in categories %}
-                <option value="{{Category.category_name}}">{{Category.category_name}}</option>
+<div class="col-12 text-center position-relative ">
+    <img src="https://english.onlinekhabar.com/wp-content/uploads/2021/12/smart-driving-licence-license.jpg"
+        alt="Contact Us" class="img-fluid" style="object-fit: cover" />
+</div>
 
-                {% endfor %}
-            </select>
+<style>
+    .img-fluid {
+        height: 350px;
+        width: 100%;
+        object-fit: cover;
+
+    }
+</style>
+
+<body>
+
+
+    <div class="container text-center">
+        <div class="row col-12">
+            <div class="col-4 md-3 mt-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top"
+                        src="https://english.onlinekhabar.com/wp-content/uploads/2021/12/smart-driving-licence-license.jpg"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">News</h5>
+                        <p class="card-text">
+                            70 marks enough to obtain driving licence in Bagmati province</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-danger mb-3">Submit</button>
-
     </div>
-</form>
 
+</body>
 
 {% endblock body %}
