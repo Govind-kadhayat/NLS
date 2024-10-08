@@ -7,6 +7,7 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('contact', views.contact, name='contact'),
     path('dashboard', views.dashboard, name='dashboard'),
+    path ("", views.dashboard, name='dashbaord'),
     path('login', views.login, name='login'),
     path('register', views.register, name='register'),
     path('notice', views.notice, name='notice'),
@@ -17,4 +18,6 @@ urlpatterns = [
     path('tax', views.tax, name='tax'),
     path('test', views.test, name='test'),
     path('testq/', views.testq, name='testq'),
+    path('api/submit-answers/', views.submit_answers, name='submit_answers'),
+
 ]

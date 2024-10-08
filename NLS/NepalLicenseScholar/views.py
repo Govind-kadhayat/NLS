@@ -2,9 +2,14 @@ from django.http.response import HttpResponse,JsonResponse
 from django.shortcuts import redirect, render
 from datetime import datetime
 from.models import *
+from django.http import JsonResponse
+from django.contrib import messages
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+import re
 import random
 
-# Create your views here.
+
 
 def home(request):
     return render(request,'home.html')
@@ -43,23 +48,54 @@ def login(request):
 
 def register(request):
     if request.method == "POST":
-         name = request.POST.get('name')
-         email = request.POST.get('email')
-         password = request.POST.get('password')
-         phone = request.POST.get('phone')
-         address= request.POST.get('address')
-         date=datetime.now()
-         signup = Signup(
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        
+        # Validate the inputs
+        if not name or not email or not password or not phone or not address:
+            messages.error(request, "All fields are required.")
+            return render(request, "register.html")
+
+        # Validate email format
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, "Enter a valid email address.")
+            return render(request, "register.html")
+
+    
+        if Signup.objects.filter(email=email).exists():
+            messages.error(request, "Email is already registered. Please use a different email.")
+            return render(request, "register.html")
+
+
+        if not re.match(r'^\d{10}$', phone):
+            messages.error(request, "Enter a valid 10-digit phone number.")
+            return render(request, "register.html")
+
+   
+        if len(password) < 6:
+            messages.error(request, "Password must be at least 6 characters long.")
+            return render(request, "register.html")
+
+  
+        signup = Signup(
             name=name,
             email=email,
-            password = password,
+            password=password,  
             phone=phone,
             address=address,
-            date=datetime.now()  
+            date=datetime.now()
         )
-         signup.save()
-    return render(request,"register.html")
+        signup.save()
 
+        messages.success(request, "Registration successful!")
+        return redirect('login')  # Redirect to login after successful registration
+
+    return render(request, "register.html")
 def notice(request):
     return render(request,"notice.html")
 
@@ -81,10 +117,11 @@ def get_quiz(request):
       
         for question_obj in question_objs:
             data.append({
+                 "uid"    : question_obj.uid,
                 "Category": question_obj.category.category_name,  
                 "question": question_obj.question, 
-                "marks": question_obj.marks,  
-                "Answer": question_obj.get_answer(),  
+                "marks"   : question_obj.marks,  
+                "Answer"  : question_obj.get_answer(),  
             })
 
         payload = {'status': True, 'data': data}
@@ -110,8 +147,19 @@ def test(request):
         if request.GET.get('category'):
             return redirect(f"/testq/?category={request.GET.get('category')}")
         return render(request,"test.html",context)
-
-
 def testq(request):
-    
-    return render(request ,"testq.html")
+
+        context ={'category': request.GET.get('category')}
+        return render(request,'testq.html',context)
+def submit_answers(request):
+    if request.method == 'POST':
+        answers = json.loads(request.body)
+        total_marks = 0
+        total_questions = len(answers)
+        for answer in answers:
+            question = Question.objects.get(uid=answer['question_id'])
+            answer_obj = Answer.objects.get(id=answer['answer_id'])
+            if answer_obj.is_correct:
+                total_marks += question.marks
+        return JsonResponse({'total_marks': total_marks, 'total_questions': total_questions})
+    return HttpResponse("Invalid request")
