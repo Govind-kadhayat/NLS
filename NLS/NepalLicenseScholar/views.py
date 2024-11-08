@@ -8,7 +8,11 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 import re
 import random
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from.models import Question, Answer
+import json
+from django.contrib.auth import authenticate, login
 
 
 def home(request):
@@ -43,9 +47,19 @@ def contact(request):
 def dashboard(request):
     return render(request,"dashboard.html")
 
-def login(request):
-    return render(request,"login.html")
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
 
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)  # Ensure 'user' is passed here
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password')
+    return render(request, 'login.html')
 def register(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -163,3 +177,35 @@ def submit_answers(request):
                 total_marks += question.marks
         return JsonResponse({'total_marks': total_marks, 'total_questions': total_questions})
     return HttpResponse("Invalid request")
+@csrf_exempt
+def submit_answers(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        answers = data.get('answers', {})
+
+        total_questions = 0
+        correct_answers = 0
+        total_marks = 0
+
+        # Loop through the submitted answers and check correctness
+        for question_uid, selected_answer in answers.items():
+            try:
+                question = Question.objects.get(uid=question_uid)
+                correct_answer = Answer.objects.filter(question=question, is_correct=True).first()
+
+                total_questions += 1
+
+                if correct_answer and correct_answer.answer == selected_answer:
+                    correct_answers += 1
+                    total_marks += question.marks  # Increment the marks if the answer is correct
+            except Question.DoesNotExist:
+                continue
+
+        # Prepare the result
+        result = {
+            'total_questions': total_questions,
+            'correct_answers': correct_answers,
+            'total_marks': total_marks
+        }
+
+        return JsonResponse(result)

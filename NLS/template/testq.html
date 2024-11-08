@@ -3,113 +3,100 @@
 {% block title %} Quiz Questions {% endblock title %}
 
 {% block body %}
-<h2></h2>
+<h2>Quiz Questions</h2>
 
-<title>Select</title>
-
-<body>
-    <div class="col-md-6 mx-auto">
-        <form method="post">
-            {% csrf_token %}
-            <div id="app">
-                <div class="container mt-5 pt-5">
-                    <div class="col-md-6 mx-auto">
-                        <h3>Give Question</h3>
-                        <div v-for="question in questions">
-                            <hr>
-                            <p> [[question.question]]</p>
-                            <div class="form-check" v-for="answer in question.Answer">
-                                <input @change="checkAnswer($event, question.uid)" :value="answer.answer"
-                                    class="form-check-input" type="radio" :name="'flexRadioDefault' + question.uid"
-                                    id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    [[answer.answer]]
-                                </label>
-                            </div>
-
-                            <hr>
+<div id="app">
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <!-- Main Quiz Form -->
+            <div class="col-md-8">
+                <h3>Answer the Questions</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div v-for="question in questions" :key="question.uid">
+                        <hr>
+                        <p>[[ question.question ]]</p>
+                        <div class="form-check" v-for="answer in question.Answer" :key="answer.id">
+                            <input @change="selectAnswer(question.uid, answer.answer)" :value="answer.answer"
+                                class="form-check-input" type="radio" :name="'flexRadioDefault' + question.uid"
+                                id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                [[ answer.answer ]]
+                            </label>
                         </div>
+                        <hr>
                     </div>
-                </div>
-
-
+                    <button @click.prevent="submitAnswers" class="btn btn-primary">Submit Answers</button>
+                </form>
             </div>
-            <button @click="submitAnswers" class="btn btn-primary">Submit Answers</button>
 
-        </form>
+            <!-- Sidebar for Results -->
+            <div class="col-md-4" v-if="showResult">
+                <h3>Results</h3>
+                <p>Total Questions: [[ totalQuestions ]]</p>
+                <p>Correct Answers: [[ totalCorrect ]]</p>
+                <p>Your Score: [[ totalMarks ]] out of [[ totalQuestions ]]</p>
+            </div>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-    <script>
-        var app = new Vue({
-            el: '#app',
-            delimiters: ['[[', ']]'],
-            data() {
-                return {
-                    category: '{{category}}',
-                    questions: []
-                }
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                category: '{{category}}',
+                questions: [],
+                selectedAnswers: {},
+                showResult: false,
+                totalQuestions: 0,
+                totalCorrect: 0,
+                totalMarks: 0
+            };
+        },
+        methods: {
+            getQuestions() {
+                fetch(`/api/question/?category=${this.category}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result);
+                        this.questions = result.data;
+                        this.totalQuestions = result.data.length;
+                    });
             },
-            methods: {
-                getQuestions() {
-                    var _this = this
-                    fetch(`/api/question/?category=${_this.category}`)
-                        .then(response => response.json())
-                        .then(result => {
-                            console.log(result)
-                            _this.questions = result.data
-                        })
-                },
-                checkAnswer(event, uid) {
-                    this.questions.map(question => {
-                        let answers = question.Answer;
-                        for (var i = 0; i < answers.length; i++) {
-                            if (answers[i].answer === event.target.value) {
-                                if (answers[i].is_correct) {
-                                    console.log("Your Answer is Correct");
-                                    alert("Your Answer is Correct!");
-                                } else {
-                                    console.log("Your Answer is Incorrect");
-                                    alert("Your Answer is Incorrect!");
-                                }
-                            }
-                        }
-                    });
-                    console.log(event.target.value, uid);
-                },
-                submitAnswers() {
-                    let answers = [];
-                    this.questions.forEach(question => {
-                        let answer = question.Answer.find(answer => answer.is_correct);
-                        answers.push({
-                            question_id: question.uid,
-                            answer_id: answer.id
-                        });
-                    });
-                    fetch('/api/submit-answers/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(answers)
+            selectAnswer(question_uid, selected_answer) {
+                this.selectedAnswers[question_uid] = selected_answer;
+            },
+            submitAnswers() {
+                const payload = {
+                    answers: this.selectedAnswers
+                };
+
+                fetch('/api/submit-answers/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result);
+                        this.totalCorrect = result.total_correct;
+                        this.totalMarks = result.total_marks;
+                        this.showResult = true; // Show the result section
                     })
-                        .then(response => response.json())
-                        .then(result => {
-                            console.log(result);
-                            alert(`You scored ${result.total_marks} out of ${result.total_questions}`);
-                        })
-                        .catch(error => console.error(error));
-                },
-            },
-
-            created() {
-                this.getQuestions()
-                console.log('Page Loded')
-            },
-        });
-    </script>
-
-
-</body>
-
+                    .catch(error => console.error(error));
+            }
+        },
+        created() {
+            this.getQuestions();
+        }
+    });
+</script>
 
 {% endblock body %}

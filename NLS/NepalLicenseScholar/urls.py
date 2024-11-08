@@ -7,8 +7,8 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('contact', views.contact, name='contact'),
     path('dashboard', views.dashboard, name='dashboard'),
-    path ("", views.dashboard, name='dashbaord'),
-    path('login', views.login, name='login'),
+    path ("", views.login, name='login'),
+  
     path('register', views.register, name='register'),
     path('notice', views.notice, name='notice'),
     path('api/question/', views.get_quiz, name='get_quiz'),  
