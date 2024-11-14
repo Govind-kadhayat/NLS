@@ -1,102 +1,157 @@
-{% extends 'home.html' %} {% block title %} Conatct Us{% endblock title %} {%block body %}
-
-<div class="col-12 text-center position-relative ">
-    <img src="https://newbusinessage-media.s3.ap-south-1.amazonaws.com/img/news/20200911125203_1599773733.Clipboard04.jpg"
-        alt="image not found" class="img-fluid" style="object-fit: cover" />
-</div>
+{% extends 'home.html' %}
+{% block title %} Tax {% endblock title %}
+{% block body %}
 
 <style>
     .img-fluid {
         height: 350px;
         width: 100%;
         object-fit: cover;
+    }
 
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 auto;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .section-title {
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-size: 18px;
+        color: #020000;
+        margin: 2rem 0;
+        padding: 0.5rem;
     }
 </style>
 
-
+<div class="col-12 text-center">
+    <img src="https://newbusinessage-media.s3.ap-south-1.amazonaws.com/img/news/20200911125203_1599773733.Clipboard04.jpg"
+        alt="image not found" class="img-fluid" />
+</div>
 
 <body>
-
-    <div class="container mb-3 mt-5">
-        <div style=" border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;">
-            <p style="font-size: 18px; color: #020000;">1. Taxes rates of Motorcycle in Nepal for 2078/ 2079</p>
-        </div>
-    </div>
-
-
-    <div class="container text-center">
+    <!-- Motorcycle Tax Rates Section -->
+    <div class="container">
+        <div class="section-title">1. Taxes rates of Motorcycle in Nepal for 2078/ 2079</div>
         <div class="row">
-            <div class="col mt-5 mb-5">
-                <table style="width: 100%; height: 189px;" border="1">
+            <div class="col">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CC</th>
+                            <th>Yearly Tax Rate per year</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr style="height: 45px;">
-                            <td style="width: 40.2214%; height: 45px;"><strong>CC</strong></td>
-                            <td style="width: 58.4871%; height: 45px;"><strong>Yearly Tax Rate per year<br></strong>
-                            </td>
+                        <tr>
+                            <td>Upto 125cc</td>
+                            <td>Rs. 3000</td>
                         </tr>
-                        <tr style="height: 24px;">
-                            <td style="width: 40.2214%; height: 24px;">Upto 125cc</td>
-                            <td style="width: 58.4871%; height: 24px;">Rs. 3000</td>
+                        <tr>
+                            <td>125cc to 150cc</td>
+                            <td>Rs. 5000</td>
                         </tr>
-                        <tr style="height: 24px;">
-                            <td style="width: 40.2214%; height: 24px;">125cc to 150cc</td>
-                            <td style="width: 58.4871%; height: 24px;">Rs. 5000</td>
+                        <tr>
+                            <td>150cc to 225cc</td>
+                            <td>Rs. 6500</td>
                         </tr>
-                        <tr style="height: 24px;">
-                            <td style="width: 40.2214%; height: 24px;">150cc to 225cc</td>
-                            <td style="width: 58.4871%; height: 24px;">Rs. 6500</td>
+                        <tr>
+                            <td>225cc to 400cc</td>
+                            <td>Rs. 11000</td>
                         </tr>
-                        <tr style="height: 24px;">
-                            <td style="width: 40.2214%; height: 24px;">225cc to 400cc</td>
-                            <td style="width: 58.4871%; height: 24px;">Rs. 11000</td>
+                        <tr>
+                            <td>400cc to 650cc</td>
+                            <td>Rs. 20000</td>
                         </tr>
-                        <tr style="height: 24px;">
-                            <td style="width: 40.2214%; height: 24px;">400cc to 650cc</td>
-                            <td style="width: 58.4871%; height: 24px;">Rs. 20000</td>
-                        </tr>
-                        <tr style="height: 24px;">
-                            <td style="width: 40.2214%; height: 24px;">650 and higher</td>
-                            <td style="width: 58.4871%; height: 24px;">Rs. 30000</td>
+                        <tr>
+                            <td>650 and higher</td>
+                            <td>Rs. 30000</td>
                         </tr>
                     </tbody>
                 </table>
-
             </div>
-
         </div>
     </div>
 
-    <div class="container mb-3 mt-5">
-        <div style=" border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;">
-            <p style="font-size: 18px; color: #020000;">2. Tax Rates of Electric Vehicles in Nepal:</p>
+    <!-- Electric Vehicles Tax Rates Section -->
+    <div class="container">
+        <div class="section-title">2. Tax Rates of Electric Vehicles in Nepal</div>
+        <div class="row">
+            <div class="col">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Engine Capacity</th>
+                            <th>Tax Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4">Private Cars/Jeeps</td>
+                            <td>Up to 1000cc</td>
+                            <td>Rs. 4,000</td>
+                        </tr>
+                        <tr>
+                            <td>1001cc to 1600cc</td>
+                            <td>Rs. 6,000</td>
+                        </tr>
+                        <tr>
+                            <td>1601cc to 2000cc</td>
+                            <td>Rs. 14,000</td>
+                        </tr>
+                        <tr>
+                            <td>Above 2000cc</td>
+                            <td>Rs. 22,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4">Motorcycles</td>
+                            <td>Up to 150cc</td>
+                            <td>Rs. 1,500</td>
+                        </tr>
+                        <tr>
+                            <td>151cc to 250cc</td>
+                            <td>Rs. 2,500</td>
+                        </tr>
+                        <tr>
+                            <td>251cc to 400cc</td>
+                            <td>Rs. 4,500</td>
+                        </tr>
+                        <tr>
+                            <td>Above 401cc</td>
+                            <td>Rs. 8,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">Electric Vehicles</td>
+                            <td>Up to 1000W</td>
+                            <td>Rs. 1,500</td>
+                        </tr>
+                        <tr>
+                            <td>1001W to 4000W</td>
+                            <td>Rs. 4,000</td>
+                        </tr>
+                        <tr>
+                            <td>Above 4001W</td>
+                            <td>Rs. 8,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-
-    <!-- <table style="width: 100%; height: 189px;" border="1">
-        <tbody>
-            <tr>
-            <tr style="height: 45px;">
-                <td style="width: 40.2214%; height: 45px;"><strong>CC</strong></td>
-                <td style="width: 58.4871%; height: 45px;"><strong>Yearly Tax Rate <br>Province 3</strong>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 118.4px;">350 Watt to 1000 Watt&nbsp;</td>
-                <td style="width: 213.6px;">Rs. 2000</td>
-            </tr>
-            <tr>
-                <td style="width: 118.4px;">1001 watt to 1500 watt</td>
-                <td style="width: 213.6px;">Rs. 2500</td>
-            </tr>
-            <tr>
-                <td style="width: 118.4px;">1501 watt and higher</td>
-                <td style="width: 213.6px;">Rs. 300</td>
-            </tr>
-        </tbody>
-    </table> -->
-
 </body>
 
 {% endblock body %}

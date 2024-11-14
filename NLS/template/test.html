@@ -1,4 +1,4 @@
-{% extends 'home.html' %} {% block title %} Conatct Us{% endblock title %} {%block body %}
+{% extends 'home.html' %} {% block title %} Test{% endblock title %} {%block body %}
 
 
 <body>
@@ -6,7 +6,7 @@
         <div class="container">
             <form>
                 <div class="row mt-5 mb-5 pt-5 ">
-                    <select class="form-control"name="category">
+                    <select class="form-control" name="category">
                         <option value="Choose">Select the Categories</option>
                         {% for Category in categories %}
                         <option value="{{Category.category_name}}">{{Category.category_name}}</option>
