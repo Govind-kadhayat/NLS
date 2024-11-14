@@ -16,11 +16,11 @@
                     <div v-for="question in questions" :key="question.uid">
                         <hr>
                         <p>[[ question.question ]]</p>
-                        <div class="form-check" v-for="answer in question.Answer" :key="answer.id">
+                        <div class="form-check" v-for="answer in question.Answer" :key="answer.answer">
                             <input @change="selectAnswer(question.uid, answer.answer)" :value="answer.answer"
                                 class="form-check-input" type="radio" :name="'flexRadioDefault' + question.uid"
-                                id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
+                                :id="'flexRadioDefault' + answer.answer">
+                            <label class="form-check-label" :for="'flexRadioDefault' + answer.answer">
                                 [[ answer.answer ]]
                             </label>
                         </div>
@@ -48,7 +48,7 @@
         delimiters: ['[[', ']]'],
         data() {
             return {
-                category: '{{category}}',
+                category: '{{ category }}',
                 questions: [],
                 selectedAnswers: {},
                 showResult: false,
@@ -62,7 +62,6 @@
                 fetch(`/api/question/?category=${this.category}`)
                     .then(response => response.json())
                     .then(result => {
-                        console.log(result);
                         this.questions = result.data;
                         this.totalQuestions = result.data.length;
                     });
@@ -85,8 +84,7 @@
                 })
                     .then(response => response.json())
                     .then(result => {
-                        console.log(result);
-                        this.totalCorrect = result.total_correct;
+                        this.totalCorrect = result.correct_answers;
                         this.totalMarks = result.total_marks;
                         this.showResult = true; // Show the result section
                     })

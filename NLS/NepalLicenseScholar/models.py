@@ -50,7 +50,10 @@ class Question(BaseModel):
    category = models.ForeignKey(Category, related_name='questions', on_delete=models.CASCADE)  # Changed related_name
    question = models.CharField(max_length=100)
    marks = models.IntegerField(default=5)
-
+   difficulty = models.CharField(max_length=100, default='Easy')
+   discrimination = models.CharField(max_length=100, default='')
+   guessing = models.CharField(max_length=100, null=True, blank=True) 
+   
    def __str__(self) -> str:
        return self.question
 
