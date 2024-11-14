@@ -1,38 +1,146 @@
-{% extends 'home.html' %} {% block title %} Notice{% endblock title %}
-{%block body %}
-<div class="col-12 text-center position-relative ">
+{% extends 'home.html' %}
+{% block title %} Notice {% endblock title %}
+
+{% block body %}
+<!-- Banner Image Section -->
+<div class="col-12 text-center position-relative">
     <img src="https://english.onlinekhabar.com/wp-content/uploads/2021/12/smart-driving-licence-license.jpg"
-        alt="Contact Us" class="img-fluid" style="object-fit: cover" />
+        alt="Driving License Notice" class="img-fluid" style="object-fit: cover; height: 350px;" />
 </div>
 
-<style>
-    .img-fluid {
-        height: 350px;
-        width: 100%;
-        object-fit: cover;
-
-    }
-</style>
-
-<body>
-    <div class="container text-center">
-        <div class="row col-12">
-            <div class="col-4 md-3 mt-3">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top"
-                        src="https://english.onlinekhabar.com/wp-content/uploads/2021/12/smart-driving-licence-license.jpg"
-                        alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">News</h5>
+<!-- Main Notice Content Section -->
+<div class="container text-center mt-4">
+    <div class="row justify-content-center">
+        <!-- First News Card - Fake Driving License Scam -->
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card shadow-lg border-0 rounded-3">
+                <img src="https://republicaimg.nagariknewscdn.com/shared/web/uploads/media/CIB_20230807164811.jpg"
+                    class="card-img-top rounded-top" alt="Fake Driving Licenses"
+                    style="object-fit: cover; height: 220px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Fake Driving License Scam Uncovered</h5>
+                    <a href="#" class="btn btn-primary rounded-pill" data-bs-toggle="collapse" data-bs-target="#news1">
+                        Read More
+                    </a>
+                    <div id="news1" class="collapse mt-3">
                         <p class="card-text">
-                            70 marks enough to obtain driving licence in Bagmati province</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                            KATHMANDU, July 10: The Central Investigation Bureau (CIB) of Nepal Police has uncovered a
+                            scam involving fake driving licenses. The police discovered that licenses were being sold to
+                            customers at prices ranging between Rs 35,000 and Rs 100,000, all of which were fake.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second News Card - Fake Citizenship Certificates Seized -->
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card shadow-lg border-0 rounded-3">
+                <img src="https://republicaimg.nagariknewscdn.com/shared/web/uploads/media/license2-copy.jpg"
+                    class="card-img-top rounded-top" alt="Seized Fake Citizenship Certificates"
+                    style="object-fit: cover; height: 220px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Seizure of Fake Citizenship Certificates</h5>
+                    <a href="#" class="btn btn-primary rounded-pill" data-bs-toggle="collapse" data-bs-target="#news2">
+                        Read More
+                    </a>
+                    <div id="news2" class="collapse mt-3">
+                        <p class="card-text">
+                            In a recent raid, police seized two laptops, a printer, 11 blank citizenship certificates
+                            bearing the district administration office heading, and seven fake certificates. The items
+                            were found to be part of an extensive operation involving counterfeit documents.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third News Card - Update on Investigation -->
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card shadow-lg border-0 rounded-3">
+                <img src="https://republicaimg.nagariknewscdn.com/shared/web/uploads/media/faketrial_20191218135053.jpg"
+                    class="card-img-top rounded-top" alt="Seized Fake Documents"
+                    style="object-fit: cover; height: 220px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Investigation Update on Fake Documents</h5>
+                    <a href="#" class="btn btn-primary rounded-pill" data-bs-toggle="collapse" data-bs-target="#news3">
+                        Read More
+                    </a>
+                    <div id="news3" class="collapse mt-3">
+                        <p class="card-text">
+                            According to Jeevan Kumar Shrestha, spokesperson for the Metropolitan Traffic Division,
+                            police have seized several fake citizenship certificates and equipment used for producing
+                            fraudulent documents. The investigation is ongoing and has revealed a more extensive network
+                            of illegal activities.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-</body>
+<!-- Additional Styling for Cards and Layout -->
+<style>
+    /* Ensure the images are responsive and cover the area */
+    .img-fluid {
+        height: 350px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    /* Card styling with hover effects */
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Image styling for rounded corners */
+    .card-img-top {
+        border-radius: 10px 10px 0 0;
+        object-fit: cover;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    /* Styling for buttons */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 20px;
+        padding: 12px 25px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    /* Styling for card titles */
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .card {
+            width: 100%;
+        }
+    }
+</style>
 
 {% endblock body %}

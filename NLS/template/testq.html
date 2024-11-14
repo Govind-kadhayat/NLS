@@ -3,44 +3,57 @@
 {% block title %} Quiz Questions {% endblock title %}
 
 {% block body %}
-<h2>Quiz Questions</h2>
+<h2 class="text-center text-primary my-4">Quiz Questions</h2>
 
 <div id="app">
     <div class="container mt-5 pt-5">
         <div class="row">
             <!-- Main Quiz Form -->
             <div class="col-md-8">
-                <h3>Answer the Questions</h3>
-                <form method="post">
+                <h3 class="mb-4">Answer the Questions</h3>
+                <form method="post" class="bg-light p-4 rounded shadow-sm">
                     {% csrf_token %}
-                    <div v-for="question in questions" :key="question.uid">
-                        <hr>
-                        <p>[[ question.question ]]</p>
-                        <div class="form-check" v-for="answer in question.Answer" :key="answer.answer">
-                            <input @change="selectAnswer(question.uid, answer.answer)" :value="answer.answer"
-                                class="form-check-input" type="radio" :name="'flexRadioDefault' + question.uid"
-                                :id="'flexRadioDefault' + answer.answer">
-                            <label class="form-check-label" :for="'flexRadioDefault' + answer.answer">
-                                [[ answer.answer ]]
-                            </label>
+                    <div v-for="question in questions" :key="question.uid" class="mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Question: [[ question.question ]]</strong>
+                            </div>
+                            <div class="card-body">
+                                <div v-for="answer in question.Answer" :key="answer.answer" class="form-check">
+                                    <input @change="selectAnswer(question.uid, answer.answer)" :value="answer.answer"
+                                        class="form-check-input" type="radio" :name="'flexRadioDefault' + question.uid"
+                                        :id="'flexRadioDefault' + answer.answer">
+                                    <label class="form-check-label" :for="'flexRadioDefault' + answer.answer">
+                                        [[ answer.answer ]]
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <hr>
                     </div>
-                    <button @click.prevent="submitAnswers" class="btn btn-primary">Submit Answers</button>
+
+                    <button @click.prevent="submitAnswers" class="btn btn-primary btn-block">Submit Answers</button>
                 </form>
             </div>
 
             <!-- Sidebar for Results -->
             <div class="col-md-4" v-if="showResult">
-                <h3>Results</h3>
-                <p>Total Questions: [[ totalQuestions ]]</p>
-                <p>Correct Answers: [[ totalCorrect ]]</p>
-                <p>Your Score: [[ totalMarks ]] out of [[ totalQuestions ]]</p>
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Results</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Username:</strong> [[ username ]]</p>
+                        <p><strong>Total Questions:</strong> [[ totalQuestions ]]</p>
+                        <p><strong>Correct Answers:</strong> [[ totalCorrect ]]</p>
+                        <p><strong>Your Score:</strong> [[ totalMarks ]] out of [[ totalAvailableMarks ]]</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Add Vue.js -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
 <script>
     var app = new Vue({
@@ -54,7 +67,9 @@
                 showResult: false,
                 totalQuestions: 0,
                 totalCorrect: 0,
-                totalMarks: 0
+                totalMarks: 0,
+                totalAvailableMarks: 0,
+                username: ''
             };
         },
         methods: {
@@ -84,9 +99,11 @@
                 })
                     .then(response => response.json())
                     .then(result => {
+                        this.username = result.username;
                         this.totalCorrect = result.correct_answers;
                         this.totalMarks = result.total_marks;
-                        this.showResult = true; // Show the result section
+                        this.totalAvailableMarks = result.total_available_marks;
+                        this.showResult = true;
                     })
                     .catch(error => console.error(error));
             }

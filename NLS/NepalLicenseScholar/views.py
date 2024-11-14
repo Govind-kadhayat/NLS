@@ -6,6 +6,9 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from .models import Signup
 from.models import *
 import re
 import json
@@ -56,6 +59,14 @@ def login_view(request):
     return render(request, 'login.html')
 
 # Registration View
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from datetime import datetime
+import re
+from .models import Signup
+
 def register(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -64,7 +75,7 @@ def register(request):
         phone = request.POST.get('phone')
         address = request.POST.get('address')
         
-        # Validation
+        # Validation checks
         if not name or not email or not password or not phone or not address:
             messages.error(request, "All fields are required.")
             return render(request, "register.html")
@@ -88,31 +99,52 @@ def register(request):
             messages.error(request, "Password must be at least 6 characters long.")
             return render(request, "register.html")
 
-        # Save User
-        signup = Signup(name=name, email=email, password=password, phone=phone, address=address, date=datetime.now())
-        signup.save()
-        messages.success(request, "Registration successful!")
-        return redirect('login')
+        # Now let's check if the values are coming correctly
+        print(f"Name: {name}, Email: {email}, Phone: {phone}, Address: {address}")
+
+        # Save the Signup object to the database
+        try:
+            signup = Signup(
+                name=name,
+                email=email,
+                password=password,
+                phone=phone,
+                address=address,
+                date=datetime.now()
+            )
+            signup.save()  # Save to the database
+            messages.success(request, "Registration successful!")
+            return redirect('login')  # Redirect to login page after successful registration
+        except Exception as e:
+            print(f"Error while saving user data: {e}")
+            messages.error(request, "There was an issue saving your registration data.")
+            return render(request, "register.html")
+
     return render(request, "register.html")
+
+
+
 
 # Notice Page
 def notice(request):
     return render(request, "notice.html")
 
-# Quiz Data
+
 def get_quiz(request):
     try:
         question_objs = Question.objects.all()
-        
+
         if request.GET.get('category'):
             category_filter = request.GET.get('category')
             question_objs = question_objs.filter(category__category_name__icontains=request.GET.get('category'))
 
-        question_objs = list(question_objs)
+        # Paginate the questions to show 4 at a time
+        paginator = Paginator(question_objs, 4)  # Show 4 questions per page
+        page_number = request.GET.get('page')  # Get the current page number
+        page_obj = paginator.get_page(page_number)
+
         data = []
-        random.shuffle(question_objs)  # Shuffle questions randomly
-        
-        for question_obj in question_objs:
+        for question_obj in page_obj:
             data.append({
                 "uid": question_obj.uid,
                 "question": question_obj.question,
@@ -121,13 +153,20 @@ def get_quiz(request):
                 "Answer": question_obj.get_answer()  # Get answers using your model method
             })
 
-        payload = {'status': True, 'data': data}
+        payload = {
+            'status': True,
+            'data': data,
+            'has_next': page_obj.has_next(),  # Check if there are more questions
+            'has_previous': page_obj.has_previous(),  # Check if there are previous questions
+            'current_page': page_obj.number,
+            'total_pages': page_obj.paginator.num_pages
+        }
+
         return JsonResponse(payload)
 
     except Exception as e:
-        print(e) 
+        print(e)
         return HttpResponse("Something went wrong")
-
 
 # Sidebar
 def side_bar(request):
@@ -158,8 +197,44 @@ def testq(request):
     return render(request, 'testq.html', context)
 
 
-@csrf_exempt
+@login_required
 def submit_answers(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        answers = data.get('answers', {})
+
+        total_questions = 0
+        correct_answers = 0
+        total_marks = 0
+        total_available_marks = 0  # Initialize total available marks
+
+        # Loop through the submitted answers and check correctness
+        for question_uid, selected_answer in answers.items():
+            try:
+                question = Question.objects.get(uid=question_uid)
+                correct_answer = Answer.objects.filter(question=question, is_correct=True).first()
+
+                total_questions += 1
+                total_available_marks += question.marks  # Add to total available marks
+
+                if correct_answer and correct_answer.answer == selected_answer:
+                    correct_answers += 1
+                    total_marks += question.marks  # Increment the marks if the answer is correct
+            except Question.DoesNotExist:
+                continue
+
+        # Prepare the result including total available marks
+        result = {
+            'username': request.user.username,
+            'total_questions': total_questions,
+            'correct_answers': correct_answers,
+            'total_marks': total_marks,
+            'total_available_marks': total_available_marks  # Add total available marks
+        }
+
+        return JsonResponse(result)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
     if request.method == 'POST':
         data = json.loads(request.body)
         answers = data.get('answers', {})
@@ -184,10 +259,12 @@ def submit_answers(request):
 
         # Prepare the result
         result = {
+            'username': request.user.username,  # Add the username here
             'total_questions': total_questions,
             'correct_answers': correct_answers,
             'total_marks': total_marks
         }
 
         return JsonResponse(result)
-    return HttpResponse("Invalid request")
+
+    return JsonResponse({"error": "Invalid request"}, status=400)

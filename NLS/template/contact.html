@@ -1,113 +1,103 @@
-{% extends 'home.html' %} {% block title %} Conatct Us{% endblock title %}
-{% block body %} <div class="">
-    <div class="col-12 text-center position-relative ">
+{% extends 'home.html' %}
+{% block title %} Contact Us {% endblock title %}
+
+{% block body %}
+<div class="container-fluid p-0">
+    <!-- Full-width Banner Image -->
+    <div class="col-12">
         <img src="https://www.dotm.gov.np/Files/ImageSlider_16750549-0beb-4879-9726-3e2daae335168586.jpg"
-            alt="Contact Us" class="img-fluid" style="object-fit: cover" />
+            alt="Contact Us" class="img-fluid banner-img" />
+    </div>
+</div>
+
+<style>
+    .banner-img {
+        width: 100%;
+        max-height: 350px;
+        object-fit: cover;
+    }
+
+    .form-container {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: auto;
+        max-width: 800px;
+    }
+
+    .form-header {
+        background-color: #111fe5;
+        color: #f7f7f7;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #555;
+    }
+</style>
+
+<!-- Form Header and Form Section -->
+<div class="container">
+    <div class="form-header">
+        <h5>Please fill out the form for feedback</h5>
     </div>
 
-    <style>
-        .img-fluid {
-            height: 350px;
-            width: 100%;
-            object-fit: cover;
+    <div class="form-container">
+        <form method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
 
-        }
-    </style>
-
-    <div class="contaner">
-        <div class="row" style="align-items: center;">
-
-            <div class="container  mb-3">
-                <div
-                    style="background-color: #111fe5; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;">
-                    <p style="font-size: 18px; color: #f7f7f7;">Please fill the form for the contact us</p>
+            <!-- Name and Email -->
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <label for="fullname" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="name" id="fullname" placeholder="Enter your full name"
+                        required />
+                </div>
+                <div class="col-sm-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email"
+                        required />
                 </div>
             </div>
 
-            <div class="list-group col-6 " style=" margin-left: 28%;">
-                <div class=" form-inner" style="
-                              padding: 30px;
-                            background: #ffffff;
-                            border-radius: 20px;
-                            box-shadow: 0px 0px 120px rgba(0, 0, 0, 0.1);
-                            position: relative;
-                            display: block;
-                          ">
-                    <form class="default-form main-form" method="post" action="/contact">
-                        {% csrf_token %}
-                        <div class="content-box ml-30">
-                            <div class="form-group row ">
-
-                                <div class="col-sm-6">
-                                    <label for="fullname" class="col-form-label">Full Name</label>
-                                    <br />
-                                    <input type="text" class="form-control" name="name" id="fullname"
-                                        formControlName="FullName" />
-                                    <div class="text-danger"></div>
-                                </div>
-                                <div class="col-lg-6  form-group">
-                                    <div class="col-auto">
-                                        <label for="email" class="col-form-label">Email</label>
-                                    </div>
-                                    <div class="col-auto">
-                                        <input type="email" id="email" name="email" class="form-control"
-                                            formControlName="Email" />
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="my-4">
-                                <div class="row g-3 align-items-center">
-
-                                    <div class="col-sm-6">
-                                        <label for="address" class="col-form-label">Address</label>
-                                        <br />
-                                        <input type="text" class="form-control" id="address" name="address"
-                                            formControlName="address" />
-                                        <div class="text-danger"></div>
-                                    </div>
-
-
-                                    <div class="col-lg-6  form-group">
-                                        <div class="col-auto">
-                                            <label for="conatct-no" class="col-form-label">Contact No </label>
-                                        </div>
-                                        <div class="col-auto">
-                                            <input type="text" id="conatct-no" class="form-control"
-                                                formControlName="ContactNo" name="phone">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="mb-6 col-lg-6 form-group">
-                                    <label for="exampleFormControlTextarea1" class="form-label"> Complain Box</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="desc"
-                                        formControlName="Statement"></textarea>
-                                </div>
-                                <div class="mb-6 col-lg-6 form-group">
-
-                                    <br>
-                                    Date Of Birth:
-                                    <input type="datetime-local" id="Test_DatetimeLocal" name="date">
-
-                                </div>
-                            </div>
-
-                            <div class="top-100 start-50 mt-3 d-flex justify-content-center ">
-                                <button type="submit" class="btn btn-success btn-md" id="button-1">
-                                    Send
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <!-- Address and Phone Number -->
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" name="address" id="address"
+                        placeholder="Enter your address" />
+                </div>
+                <div class="col-sm-6">
+                    <label for="contact-no" class="form-label">Contact No.</label>
+                    <input type="text" class="form-control" name="phone" id="contact-no"
+                        placeholder="Enter your contact number" />
                 </div>
             </div>
-        </div>
 
+            <!-- Message and Date of Birth -->
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <label for="complain-box" class="form-label">Feedback/Complaint</label>
+                    <textarea class="form-control" id="complain-box" name="desc" rows="4"
+                        placeholder="Write your message here..."></textarea>
+                </div>
+                <div class="col-sm-6">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <input type="datetime-local" class="form-control" name="date" id="dob" />
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-success">Send</button>
+            </div>
+        </form>
     </div>
-
 </div>
 {% endblock body %}

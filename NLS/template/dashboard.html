@@ -1,19 +1,88 @@
 {% extends 'home.html' %}
 {% block title %} Dashboard {% endblock title %}
+
 {% block body %}
 <style>
     .carousel-item img {
         height: 500px;
         object-fit: cover;
+        border-radius: 10px;
     }
 
     .carousel-inner {
         max-height: 500px;
     }
+
+    .carousel-indicators button {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .carousel-indicators .active {
+        background-color: #007bff;
+    }
+
+    .section-header {
+        background-color: #4e73df;
+        color: white;
+        padding: 20px 0;
+        font-size: 1.2rem;
+    }
+
+    .card {
+        transition: transform 0.3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img-top {
+        border-radius: 10px 10px 0 0;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 20px;
+        padding: 10px 20px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .intro-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-top: 10px;
+    }
+
+    .container-fluid {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .container {
+        max-width: 1200px;
+    }
+
+    .section-header p {
+        font-size: 1.2rem;
+    }
 </style>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row mb-4">
+        <!-- Carousel Section -->
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -26,15 +95,15 @@
             <div class="carousel-inner">
                 <div class="carousel-item">
                     <img src="https://www.lumina.com.ph/assets/news-and-blogs-photos/Road-Traffic-Rules-and-Regulations-in-the-Philippines/Road-Traffic-Rules-and-Regulations-in-the-Philippines.webp"
-                        class="d-block w-100" alt="...">
+                        class="d-block w-100" alt="Road Traffic Rules">
                 </div>
                 <div class="carousel-item active">
                     <img src="https://rpcdn.ratopati.com/media/albums/download_FR8NY2nA3W.jpg" class="d-block w-100"
-                        alt="...">
+                        alt="Nepal License">
                 </div>
                 <div class="carousel-item">
                     <img src="https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/04/Smart-driving-licence-specimen.jpg"
-                        class="d-block w-100" alt="...">
+                        class="d-block w-100" alt="Smart Driving License">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -49,50 +118,49 @@
             </button>
         </div>
     </div>
-</div>
 
-<div class="row mb-3" style="background-color: rgb(116, 116, 246);">
-    <div class="col-md-12 text-center" style="color: white; font-size: medium;">
-        <div class="container text-center mt-3 mb-3">
+    <!-- Introduction Section -->
+    <div class="section-header text-center">
+        <h3>Welcome to the Traffic Department of Nepal</h3>
+        <p class="intro-text">
             यातायात व्यवस्था विभाग नेपालको यातायात क्षेत्रलाई नियमन, विकास, व्यवस्थापन र सहजीकरणका लागि स्थापना भएको
             केन्द्रिय स्तरको सरकारी निकाय हो । यातायात व्यवस्था विभाग हाल नेपाल सरकार, भौतिक पुर्वाधार तथा यातायात
             मन्त्रालय मातहत रहेको छ । यातायात क्षेत्रको समग्र व्यवस्थापनका लागि वि.सं. २०४१ सालमा यो विभागको स्थापना
-            भएको हो। सवारी तथा यातायात व्यवस्था ऐन, २०४९, सवारी तथा यातायात व्यवस्था नियमावली, २०५४ को कानूनी प्रावधान
-            वमोजिम विगतदेखि यस विभागले मानिस तथा बस्तुहरुको आवागमन र ओसार-पोसारलाई सुरक्षित, भरपर्दो र सुलभ बनाउन आफुलाई
-            केन्द्रित गर्दै आइरहेको छ ।
-        </div>
+            भएको हो।
+        </p>
     </div>
-</div>
 
-<div class="container text-center">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-4 mb-3">
-            <div class="card" style="width: 18rem;">
-                <img src="https://imgs.search.brave.com/xs_5c17rQn24VJmbLYKmvmJRzuvdVYmB7d9J-6BrjR4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG40/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvZWR1Y2F0aW9u/LTE5NS8xMjgvRWR1/Y2F0aW9uLTA1LTEy/OC5wbmc"
-                    class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Written Test</h5>
-                    <a href="/test" class="btn btn-primary">Click For test</a>
+    <!-- Cards for Sections -->
+    <div class="container text-center mt-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://imgs.search.brave.com/xs_5c17rQn24VJmbLYKmvmJRzuvdVYmB7d9J-6BrjR4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG40/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvZWR1Y2F0aW9u/LTE5NS8xMjgvRWR1/Y2F0aW9uLTA1LTEy/OC5wbmc"
+                        class="card-img-top" alt="Written Test">
+                    <div class="card-body">
+                        <h5 class="card-title">Written Test</h5>
+                        <a href="/test" class="btn btn-primary">Click for Test</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-md-4 mb-3">
-            <div class="card" style="width: 18rem;">
-                <img src="https://imgs.search.brave.com/ETIVqQSTmWOs7QaRp3BlBbyGSs9S0A7Fv3G5BSUerWg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZs/YXRpY29uLmNvbS8x/MjgvNjQwMS82NDAx/NDQ5LnBuZw"
-                    class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Eye Test</h5>
-                    <a href="#" class="btn btn-primary">Click here for the eye test</a>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://imgs.search.brave.com/ETIVqQSTmWOs7QaRp3BlBbyGSs9S0A7Fv3G5BSUerWg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZs/YXRpY29uLmNvbS8x/MjgvNjQwMS82NDAx/NDQ5LnBuZw"
+                        class="card-img-top" alt="Eye Test">
+                    <div class="card-body">
+                        <h5 class="card-title">Eye Test</h5>
+                        <a href="#" class="btn btn-primary">Click for Eye Test</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-md-4 mb-3">
-            <div class="card" style="width: 18rem;">
-                <img src="https://imgs.search.brave.com/2VA4-DyoecewUU9B-tP-kl9ZTur8oaz5JORX2LY3iPs/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4z/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvdGF4ZXMtMTQv/NjQvdmF0X3RheF90/YXhlc19kb2N1bWVu/dF90ZXh0LTUxMi5w/bmc"
-                    class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Vehicle Tax Prices</h5>
-                    <a href="/tax" class="btn btn-primary">Click to know</a>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://imgs.search.brave.com/2VA4-DyoecewUU9B-tP-kl9ZTur8oaz5JORX2LY3iPs/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4z/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvdGF4ZXMtMTQv/NjQvdmF0X3RheF90/YXhlc19kb2N1bWVu/dF90ZXh0LTUxMi5w/bmc"
+                        class="card-img-top" alt="Vehicle Tax Prices">
+                    <div class="card-body">
+                        <h5 class="card-title">Vehicle Tax Prices</h5>
+                        <a href="/tax" class="btn btn-primary">Click for Tax Info</a>
+                    </div>
                 </div>
             </div>
         </div>
