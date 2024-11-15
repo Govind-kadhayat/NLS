@@ -135,6 +135,7 @@ def get_quiz(request):
     try:
         question_objs = Question.objects.all()
 
+        # Filter questions based on category if provided
         if request.GET.get('category'):
             category_filter = request.GET.get('category')
             question_objs = question_objs.filter(category__category_name__icontains=category_filter)
@@ -145,11 +146,13 @@ def get_quiz(request):
 
         data = []
         for question_obj in page_obj:
+            # Adding the difficulty field to the question data
             data.append({
                 "uid": question_obj.uid,
                 "question": question_obj.question,
                 "marks": question_obj.marks,
                 "category": question_obj.category.category_name,
+                "difficulty": question_obj.difficulty,  # Add difficulty here
                 "Answer": question_obj.get_answer()
             })
 
@@ -167,7 +170,6 @@ def get_quiz(request):
     except Exception as e:
         print(e)
         return JsonResponse({"error": "Something went wrong"}, status=500)
-
 # Sidebar
 def side_bar(request):
     return render(request, "main/side_bar.html")

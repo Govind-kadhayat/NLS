@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'NepalLicenseScholar.apps.NepallicensescholarConfig',
     'django_extensions',
+  
 
 ]
 
@@ -123,7 +124,7 @@ STATIC_URL = 'static/'
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,"static")
+
 ]
 
 # Default primary key field type

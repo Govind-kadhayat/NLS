@@ -1,9 +1,9 @@
 {% extends 'home.html' %}
 
-{% block title %} Quiz Questions {% endblock title %}
+{% block title %} Questions {% endblock title %}
 
 {% block body %}
-<h2 class="text-center text-primary my-4">Quiz Questions</h2>
+<h2 class="text-center text-primary my-4"> Questions</h2>
 
 <div id="app">
     <div class="container mt-5 pt-5">
@@ -17,6 +17,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <strong>Question: [[ question.question ]]</strong>
+                                <span class="badge ml-2" :class="difficultyClass(question.difficulty)">
+                                    [[ question.difficulty ]]
+                                </span>
                             </div>
                             <div class="card-body">
                                 <div v-for="answer in question.Answer" :key="answer.answer" class="form-check">
@@ -55,6 +58,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- Timer Display Section -->
+        <div class="timer-container">
+            <div class="timer-box">
+                <div class="timer-text">
+                    <h5>Time Remaining</h5>
+                    <p>[[ timerDisplay ]]</p>
+                </div>
+                <div class="timer-text">
+                    <h5>Time Taken</h5>
+                    <p>[[ timeTakenDisplay ]]</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -77,7 +94,14 @@
                 username: '',
                 currentPage: 1,
                 hasNextPage: false,
-                hasPreviousPage: false
+                hasPreviousPage: false,
+                timer: 1200,  // 20 minutes in seconds
+                timerDisplay: '20:00',
+                startTime: null,  // Time when the user starts the quiz
+                elapsedTime: 0,  // Time elapsed in seconds
+                timeTakenDisplay: '00:00:00',  // Elapsed time in HH:MM:SS format
+                timerInterval: null,
+                elapsedTimeInterval: null
             };
         },
         methods: {
@@ -126,12 +150,119 @@
                         this.showResult = true;
                     })
                     .catch(error => console.error(error));
+            },
+            startTimer() {
+                this.startTime = Date.now();  // Store the start time when the quiz begins
+
+                this.timerInterval = setInterval(() => {
+                    if (this.timer > 0) {
+                        this.timer--;
+                        let minutes = Math.floor(this.timer / 60);
+                        let seconds = this.timer % 60;
+                        this.timerDisplay = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    } else {
+                        clearInterval(this.timerInterval);
+                        this.submitAnswers();
+                    }
+                }, 1000);
+
+                // Track elapsed time
+                this.elapsedTimeInterval = setInterval(() => {
+                    if (this.startTime) {
+                        let currentTime = Date.now();
+                        this.elapsedTime = Math.floor((currentTime - this.startTime) / 1000);  // In seconds
+
+                        // Convert elapsed time to HH:MM:SS format
+                        let hours = Math.floor(this.elapsedTime / 3600);
+                        let minutes = Math.floor((this.elapsedTime % 3600) / 60);
+                        let seconds = this.elapsedTime % 60;
+
+                        this.timeTakenDisplay = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    }
+                }, 1000);
+            },
+            // Helper method to add different CSS classes for difficulty levels
+            difficultyClass(difficulty) {
+                switch (difficulty) {
+                    case 'Easy':
+                        return 'badge-success';  // Green for Easy
+                    case 'Medium':
+                        return 'badge-warning';  // Yellow for Medium
+                    case 'Hard':
+                        return 'badge-danger';  // Red for Hard
+                    default:
+                        return '';
+                }
             }
         },
         created() {
             this.getQuestions();
+            this.startTimer();  // Start the timer when the component is created
         }
     });
 </script>
+
+<!-- Add custom styles for the circular timer -->
+<style>
+    .timer-container {
+        position: fixed;
+        top: 80px;
+        /* Adjusted to make space for the header */
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .timer-box {
+        background-color: rgba(128, 0, 128, 0.6);
+        /* Light purple with transparency */
+        color: white;
+        border-radius: 50%;
+        /* Circular shape */
+        width: 150px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    .timer-text h5 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    .timer-text p {
+        font-size: 22px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    /* Badge styles for difficulty */
+    .badge {
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 12px;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+    }
+</style>
 
 {% endblock body %}
