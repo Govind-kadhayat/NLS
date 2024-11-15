@@ -31,7 +31,12 @@
                         </div>
                     </div>
 
-                    <button @click.prevent="submitAnswers" class="btn btn-primary btn-block">Submit Answers</button>
+                    <div class="d-flex justify-content-between mt-4">
+                        <button v-if="hasPreviousPage" @click.prevent="loadPreviousPage"
+                            class="btn btn-secondary">Previous</button>
+                        <button v-if="hasNextPage" @click.prevent="loadNextPage" class="btn btn-primary">Next</button>
+                        <button v-else @click.prevent="submitAnswers" class="btn btn-success">Submit Answers</button>
+                    </div>
                 </form>
             </div>
 
@@ -69,17 +74,32 @@
                 totalCorrect: 0,
                 totalMarks: 0,
                 totalAvailableMarks: 0,
-                username: ''
+                username: '',
+                currentPage: 1,
+                hasNextPage: false,
+                hasPreviousPage: false
             };
         },
         methods: {
             getQuestions() {
-                fetch(`/api/question/?category=${this.category}`)
+                fetch(`/api/question/?category=${this.category}&page=${this.currentPage}`)
                     .then(response => response.json())
                     .then(result => {
                         this.questions = result.data;
-                        this.totalQuestions = result.data.length;
+                        this.hasNextPage = result.has_next;
+                        this.hasPreviousPage = result.has_previous;
+                        this.totalQuestions += result.data.length;  // Track total questions loaded
                     });
+            },
+            loadNextPage() {
+                this.currentPage += 1;
+                this.getQuestions();
+            },
+            loadPreviousPage() {
+                if (this.currentPage > 1) {
+                    this.currentPage -= 1;
+                    this.getQuestions();
+                }
             },
             selectAnswer(question_uid, selected_answer) {
                 this.selectedAnswers[question_uid] = selected_answer;

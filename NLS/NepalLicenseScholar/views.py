@@ -13,6 +13,7 @@ from.models import *
 import re
 import json
 import random
+from django.core.paginator import Paginator
 
 # Home Page
 def home(request):
@@ -136,11 +137,10 @@ def get_quiz(request):
 
         if request.GET.get('category'):
             category_filter = request.GET.get('category')
-            question_objs = question_objs.filter(category__category_name__icontains=request.GET.get('category'))
+            question_objs = question_objs.filter(category__category_name__icontains=category_filter)
 
-        # Paginate the questions to show 4 at a time
         paginator = Paginator(question_objs, 4)  # Show 4 questions per page
-        page_number = request.GET.get('page')  # Get the current page number
+        page_number = request.GET.get('page', 1)  # Default to the first page
         page_obj = paginator.get_page(page_number)
 
         data = []
@@ -150,14 +150,14 @@ def get_quiz(request):
                 "question": question_obj.question,
                 "marks": question_obj.marks,
                 "category": question_obj.category.category_name,
-                "Answer": question_obj.get_answer()  # Get answers using your model method
+                "Answer": question_obj.get_answer()
             })
 
         payload = {
             'status': True,
             'data': data,
-            'has_next': page_obj.has_next(),  # Check if there are more questions
-            'has_previous': page_obj.has_previous(),  # Check if there are previous questions
+            'has_next': page_obj.has_next(),
+            'has_previous': page_obj.has_previous(),
             'current_page': page_obj.number,
             'total_pages': page_obj.paginator.num_pages
         }
@@ -166,7 +166,7 @@ def get_quiz(request):
 
     except Exception as e:
         print(e)
-        return HttpResponse("Something went wrong")
+        return JsonResponse({"error": "Something went wrong"}, status=500)
 
 # Sidebar
 def side_bar(request):
@@ -195,6 +195,7 @@ def test(request):
 def testq(request):
     context = {'category': request.GET.get('category')}
     return render(request, 'testq.html', context)
+
 
 
 @login_required
@@ -268,3 +269,4 @@ def submit_answers(request):
         return JsonResponse(result)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+

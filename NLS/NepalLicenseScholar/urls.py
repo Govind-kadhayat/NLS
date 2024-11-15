@@ -14,6 +14,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
     path('notice/', views.notice, name='notice'),
+    path('login/', views.login_view, name='login'),
 
     # API URLs
     path('api/question/', views.get_quiz, name='get_quiz'),
