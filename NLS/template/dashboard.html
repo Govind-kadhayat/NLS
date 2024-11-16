@@ -1,16 +1,22 @@
 {% extends 'home.html' %}
-{% block title %} Dashboard {% endblock title %}
+{% block title %}Dashboard{% endblock title %}
 
 {% block body %}
 <style>
+    /* Carousel Styling */
     .carousel-item img {
-        height: 500px;
+        height: 450px;
+        /* Set height to manage image size */
+        max-height: 450px;
+        width: 100%;
+        /* Ensure image takes full width */
         object-fit: cover;
         border-radius: 10px;
     }
 
     .carousel-inner {
-        max-height: 500px;
+        max-height: 450px;
+        /* Maintain the height of the carousel */
     }
 
     .carousel-indicators button {
@@ -21,38 +27,61 @@
         background-color: #007bff;
     }
 
+    /* Section Header Styling */
     .section-header {
         background-color: #4e73df;
         color: white;
         padding: 20px 0;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
     }
 
+    .section-header p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-top: 15px;
+    }
+
+    /* Card Styling */
     .card {
-        transition: transform 0.3s ease-in-out;
         border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
         transform: scale(1.05);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     }
 
     .card-img-top {
-        border-radius: 10px 10px 0 0;
         height: 200px;
+        /* Fixed height for card images */
+        width: 100%;
+        /* Full width of the card */
         object-fit: cover;
+        border-radius: 10px 10px 0 0;
+        /* Rounded top corners */
     }
 
     .card-body {
+        padding: 20px;
         text-align: center;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
     }
 
     .btn-primary {
         background-color: #007bff;
         border-color: #007bff;
-        border-radius: 20px;
-        padding: 10px 20px;
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
     }
 
     .btn-primary:hover {
@@ -60,9 +89,10 @@
         border-color: #004085;
     }
 
+    /* Intro Section Styling */
     .intro-text {
         font-size: 1.1rem;
-        line-height: 1.6;
+        line-height: 1.8;
         margin-top: 10px;
     }
 
@@ -71,19 +101,37 @@
         padding-right: 30px;
     }
 
+    /* Responsive Layout */
     .container {
         max-width: 1200px;
     }
 
-    .section-header p {
-        font-size: 1.2rem;
+    @media (max-width: 768px) {
+        .section-header {
+            font-size: 1.3rem;
+        }
+
+        .carousel-item img {
+            height: 300px;
+            /* Adjust height for smaller screens */
+        }
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        /* Smaller image size for cards on mobile */
+        .card-img-top {
+            height: 150px;
+            /* Reduce card image height on smaller screens */
+        }
     }
 </style>
 
 <div class="container-fluid">
+    <!-- Carousel Section -->
     <div class="row mb-4">
-        <!-- Carousel Section -->
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
                     aria-current="true" aria-label="Slide 1"></button>
@@ -107,21 +155,19 @@
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
+                data-bs-slide="prev" aria-label="Previous">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
+                data-bs-slide="next" aria-label="Next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>
 
     <!-- Introduction Section -->
-    <div class="section-header text-center">
-        <h3>Welcome to the Traffic Department of Nepal</h3>
+    <div class="section-header">
+        <h3>Welcome to the Nepal License Scholar</h3>
         <p class="intro-text">
             यातायात व्यवस्था विभाग नेपालको यातायात क्षेत्रलाई नियमन, विकास, व्यवस्थापन र सहजीकरणका लागि स्थापना भएको
             केन्द्रिय स्तरको सरकारी निकाय हो । यातायात व्यवस्था विभाग हाल नेपाल सरकार, भौतिक पुर्वाधार तथा यातायात
@@ -130,7 +176,7 @@
         </p>
     </div>
 
-    <!-- Cards for Sections -->
+    <!-- Cards Section -->
     <div class="container text-center mt-4">
         <div class="row justify-content-center">
             <div class="col-12 col-md-4 mb-3">
@@ -139,7 +185,7 @@
                         class="card-img-top" alt="Written Test">
                     <div class="card-body">
                         <h5 class="card-title">Written Test</h5>
-                        <a href="/test" class="btn btn-primary">Click for Test</a>
+                        <a href="/test" class="btn btn-primary">Take the Test</a>
                     </div>
                 </div>
             </div>
@@ -149,7 +195,7 @@
                         class="card-img-top" alt="Eye Test">
                     <div class="card-body">
                         <h5 class="card-title">Eye Test</h5>
-                        <a href="#" class="btn btn-primary">Click for Eye Test</a>
+                        <a href="#" class="btn btn-primary">Take the Eye Test</a>
                     </div>
                 </div>
             </div>
@@ -159,7 +205,7 @@
                         class="card-img-top" alt="Vehicle Tax Prices">
                     <div class="card-body">
                         <h5 class="card-title">Vehicle Tax Prices</h5>
-                        <a href="/tax" class="btn btn-primary">Click for Tax Info</a>
+                        <a href="/tax" class="btn btn-primary">View Tax Info</a>
                     </div>
                 </div>
             </div>

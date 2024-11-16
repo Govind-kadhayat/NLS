@@ -68,6 +68,8 @@ from datetime import datetime
 import re
 from .models import Signup
 
+
+
 def register(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -76,55 +78,55 @@ def register(request):
         phone = request.POST.get('phone')
         address = request.POST.get('address')
         
-        # Validation checks
+        # Basic validation checks
         if not name or not email or not password or not phone or not address:
             messages.error(request, "All fields are required.")
-            return render(request, "register.html")
+            return render(request, "signup.html")
 
         # Validate email format
         try:
             validate_email(email)
         except ValidationError:
             messages.error(request, "Enter a valid email address.")
-            return render(request, "register.html")
+            return render(request, "signup.html")
 
+        # Check if email already exists
         if Signup.objects.filter(email=email).exists():
             messages.error(request, "Email is already registered.")
-            return render(request, "register.html")
+            return render(request, "signup.html")
 
+        # Validate phone number (should be exactly 10 digits)
         if not re.match(r'^\d{10}$', phone):
             messages.error(request, "Enter a valid 10-digit phone number.")
-            return render(request, "register.html")
+            return render(request, "signup.html")
 
+        # Validate password length
         if len(password) < 6:
             messages.error(request, "Password must be at least 6 characters long.")
-            return render(request, "register.html")
+            return render(request, "signup.html")
 
-        # Now let's check if the values are coming correctly
-        print(f"Name: {name}, Email: {email}, Phone: {phone}, Address: {address}")
+        # Hash the password
+        hashed_password = make_password(password)
 
         # Save the Signup object to the database
         try:
             signup = Signup(
                 name=name,
                 email=email,
-                password=password,
+                password=hashed_password,
                 phone=phone,
                 address=address,
-                date=datetime.now()
+                date=timezone.now()
             )
-            signup.save()  # Save to the database
+            signup.save()
             messages.success(request, "Registration successful!")
             return redirect('login')  # Redirect to login page after successful registration
         except Exception as e:
             print(f"Error while saving user data: {e}")
             messages.error(request, "There was an issue saving your registration data.")
-            return render(request, "register.html")
+            return render(request, "signup.html")
 
-    return render(request, "register.html")
-
-
-
+    return render(request, "signup.html")
 
 # Notice Page
 def notice(request):
@@ -197,6 +199,68 @@ def test(request):
 def testq(request):
     context = {'category': request.GET.get('category')}
     return render(request, 'testq.html', context)
+
+def get_next_question(category, difficulty):
+    difficulty_map = {
+        'Easy': 'Medium',
+        'Medium': 'Hard',
+        'Hard': 'Medium',  # If the user gets "Hard" wrong, show "Medium" again
+    }
+
+    questions = Question.objects.filter(category__category_name=category, difficulty=difficulty).order_by('?')
+
+    if questions.exists():
+        return questions.first()
+
+    # If no question is found for the given difficulty, return the next fallback difficulty
+    fallback_difficulty = difficulty_map.get(difficulty, 'Easy')
+    fallback_questions = Question.objects.filter(category__category_name=category, difficulty=fallback_difficulty).order_by('?')
+    return fallback_questions.first() if fallback_questions.exists() else None
+@csrf_exempt
+def adaptive_question_view(request):
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+
+        category = data.get('category', '')
+        previous_difficulty = data.get('previous_difficulty', 'Easy')
+        correct = data.get('correct', True)  # Assume correct by default for new session
+
+        # Determine next difficulty
+        if correct:
+            next_difficulty = {
+                'Easy': 'Medium',
+                'Medium': 'Hard',
+                'Hard': 'Hard',
+            }.get(previous_difficulty, 'Easy')
+        else:
+            next_difficulty = {
+                'Hard': 'Medium',
+                'Medium': 'Easy',
+                'Easy': 'Easy',
+            }.get(previous_difficulty, 'Easy')
+
+        next_question = get_next_question(category, next_difficulty)
+
+        if next_question:
+            return JsonResponse({
+                'success': True,
+                'question': {
+                    'uid': next_question.uid,
+                    'question': next_question.question,
+                    'difficulty': next_question.difficulty,
+                    'answers': list(next_question.answers.values('answer', 'is_correct')),
+                }
+            })
+        else:
+            return JsonResponse({'success': False, 'message': 'No more questions available.'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request.'})
+
+
+
+
+
 
 
 

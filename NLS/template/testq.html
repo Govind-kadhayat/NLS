@@ -95,34 +95,38 @@
                 currentPage: 1,
                 hasNextPage: false,
                 hasPreviousPage: false,
-                timer: 1200,  // 20 minutes in seconds
+                timer: 1200, // 20 minutes in seconds
                 timerDisplay: '20:00',
-                startTime: null,  // Time when the user starts the quiz
-                elapsedTime: 0,  // Time elapsed in seconds
-                timeTakenDisplay: '00:00:00',  // Elapsed time in HH:MM:SS format
+                startTime: null, // Time when the user starts the quiz
+                elapsedTime: 0, // Time elapsed in seconds
+                timeTakenDisplay: '00:00:00', // Elapsed time in HH:MM:SS format
                 timerInterval: null,
-                elapsedTimeInterval: null
+                elapsedTimeInterval: null,
+                lastDifficulty: 'Easy', // Default starting difficulty
+                adaptiveMode: true // Enable adaptive mode
             };
         },
         methods: {
-            getQuestions() {
-                fetch(`/api/question/?category=${this.category}&page=${this.currentPage}`)
+            getQuestions(difficulty = this.lastDifficulty) {
+                fetch(`/api/question/?category=${this.category}&difficulty=${difficulty}&page=${this.currentPage}`)
                     .then(response => response.json())
                     .then(result => {
                         this.questions = result.data;
                         this.hasNextPage = result.has_next;
                         this.hasPreviousPage = result.has_previous;
-                        this.totalQuestions += result.data.length;  // Track total questions loaded
+                        this.totalQuestions += result.data.length; // Track total questions loaded
                     });
             },
             loadNextPage() {
+                this.evaluateAnswers();
                 this.currentPage += 1;
-                this.getQuestions();
+                let nextDifficulty = this.determineNextDifficulty();
+                this.getQuestions(nextDifficulty);
             },
             loadPreviousPage() {
                 if (this.currentPage > 1) {
                     this.currentPage -= 1;
-                    this.getQuestions();
+                    this.getQuestions(); // Load questions of the current difficulty
                 }
             },
             selectAnswer(question_uid, selected_answer) {
@@ -152,7 +156,7 @@
                     .catch(error => console.error(error));
             },
             startTimer() {
-                this.startTime = Date.now();  // Store the start time when the quiz begins
+                this.startTime = Date.now(); // Store the start time when the quiz begins
 
                 this.timerInterval = setInterval(() => {
                     if (this.timer > 0) {
@@ -170,7 +174,7 @@
                 this.elapsedTimeInterval = setInterval(() => {
                     if (this.startTime) {
                         let currentTime = Date.now();
-                        this.elapsedTime = Math.floor((currentTime - this.startTime) / 1000);  // In seconds
+                        this.elapsedTime = Math.floor((currentTime - this.startTime) / 1000); // In seconds
 
                         // Convert elapsed time to HH:MM:SS format
                         let hours = Math.floor(this.elapsedTime / 3600);
@@ -181,26 +185,52 @@
                     }
                 }, 1000);
             },
-            // Helper method to add different CSS classes for difficulty levels
             difficultyClass(difficulty) {
                 switch (difficulty) {
                     case 'Easy':
-                        return 'badge-success';  // Green for Easy
+                        return 'badge-success'; // Green for Easy
                     case 'Medium':
-                        return 'badge-warning';  // Yellow for Medium
+                        return 'badge-warning'; // Yellow for Medium
                     case 'Hard':
-                        return 'badge-danger';  // Red for Hard
+                        return 'badge-danger'; // Red for Hard
                     default:
                         return '';
+                }
+            },
+            evaluateAnswers() {
+                // Mock evaluation: Assume server validates correctness of answers
+                Object.keys(this.selectedAnswers).forEach(questionUid => {
+                    // Fetch question object and validate
+                    let question = this.questions.find(q => q.uid === questionUid);
+                    if (question && question.correctAnswer === this.selectedAnswers[questionUid]) {
+                        this.totalCorrect++;
+                        this.lastDifficulty = question.difficulty; // Update last difficulty
+                    }
+                });
+            },
+            determineNextDifficulty() {
+                if (!this.adaptiveMode) return this.lastDifficulty; // Keep current difficulty in normal mode
+
+                // Adaptive logic based on last difficulty and correctness
+                switch (this.lastDifficulty) {
+                    case 'Easy':
+                        return this.totalCorrect > 0 ? 'Medium' : 'Easy';
+                    case 'Medium':
+                        return this.totalCorrect > 0 ? 'Hard' : 'Easy';
+                    case 'Hard':
+                        return this.totalCorrect > 0 ? 'Hard' : 'Medium';
+                    default:
+                        return 'Easy';
                 }
             }
         },
         created() {
-            this.getQuestions();
-            this.startTimer();  // Start the timer when the component is created
+            this.getQuestions(); // Load initial questions with default difficulty
+            this.startTimer(); // Start the timer when the component is created
         }
     });
 </script>
+
 
 <!-- Add custom styles for the circular timer -->
 <style>
