@@ -3,37 +3,91 @@
 {% block body %}
 
 <style>
+    /* General Styling */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f7fa;
+        color: #333;
+    }
+
+    /* Image Section */
     .img-fluid {
         height: 350px;
         width: 100%;
         object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
+    /* Section Title Styling */
+    .section-title {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #2c3e50;
+        margin: 30px 0 20px 0;
+        text-align: center;
+        padding: 15px;
+        background-color: #eaf2f8;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table Styling */
     table {
         width: 100%;
         border-collapse: collapse;
-        margin: 0 auto;
+        margin-bottom: 40px;
     }
 
     th,
     td {
-        border: 1px solid #ddd;
-        padding: 8px;
+        padding: 12px;
         text-align: center;
+        border: 1px solid #ddd;
+        font-size: 1.1rem;
     }
 
     th {
-        background-color: #f2f2f2;
+        background-color: #007bff;
+        color: white;
     }
 
-    .section-title {
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        font-size: 18px;
-        color: #020000;
-        margin: 2rem 0;
-        padding: 0.5rem;
+    td {
+        background-color: #f9f9f9;
+        font-weight: 500;
+    }
+
+    tr:nth-child(even) td {
+        background-color: #f1f1f1;
+    }
+
+    tr:hover td {
+        background-color: #f2cfcf;
+    }
+
+    /* Button Style */
+    .btn {
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 30px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Container for the tables */
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px;
     }
 </style>
 
@@ -42,116 +96,106 @@
         alt="image not found" class="img-fluid" />
 </div>
 
-<body>
-    <!-- Motorcycle Tax Rates Section -->
-    <div class="container">
-        <div class="section-title">1. Taxes rates of Motorcycle in Nepal for 2078/ 2079</div>
-        <div class="row">
-            <div class="col">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>CC</th>
-                            <th>Yearly Tax Rate per year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Upto 125cc</td>
-                            <td>Rs. 3000</td>
-                        </tr>
-                        <tr>
-                            <td>125cc to 150cc</td>
-                            <td>Rs. 5000</td>
-                        </tr>
-                        <tr>
-                            <td>150cc to 225cc</td>
-                            <td>Rs. 6500</td>
-                        </tr>
-                        <tr>
-                            <td>225cc to 400cc</td>
-                            <td>Rs. 11000</td>
-                        </tr>
-                        <tr>
-                            <td>400cc to 650cc</td>
-                            <td>Rs. 20000</td>
-                        </tr>
-                        <tr>
-                            <td>650 and higher</td>
-                            <td>Rs. 30000</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+<!-- Motorcycle Tax Rates Section -->
+<div class="container">
+    <div class="section-title">1. Motorcycle Tax Rates in Nepal for 2078/ 2079</div>
+    <table>
+        <thead>
+            <tr>
+                <th>CC</th>
+                <th>Yearly Tax Rate (per year)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Upto 125cc</td>
+                <td>Rs. 3000</td>
+            </tr>
+            <tr>
+                <td>125cc to 150cc</td>
+                <td>Rs. 5000</td>
+            </tr>
+            <tr>
+                <td>150cc to 225cc</td>
+                <td>Rs. 6500</td>
+            </tr>
+            <tr>
+                <td>225cc to 400cc</td>
+                <td>Rs. 11000</td>
+            </tr>
+            <tr>
+                <td>400cc to 650cc</td>
+                <td>Rs. 20000</td>
+            </tr>
+            <tr>
+                <td>650 and higher</td>
+                <td>Rs. 30000</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-    <!-- Electric Vehicles Tax Rates Section -->
-    <div class="container">
-        <div class="section-title">2. Tax Rates of Electric Vehicles in Nepal</div>
-        <div class="row">
-            <div class="col">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Engine Capacity</th>
-                            <th>Tax Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td rowspan="4">Private Cars/Jeeps</td>
-                            <td>Up to 1000cc</td>
-                            <td>Rs. 4,000</td>
-                        </tr>
-                        <tr>
-                            <td>1001cc to 1600cc</td>
-                            <td>Rs. 6,000</td>
-                        </tr>
-                        <tr>
-                            <td>1601cc to 2000cc</td>
-                            <td>Rs. 14,000</td>
-                        </tr>
-                        <tr>
-                            <td>Above 2000cc</td>
-                            <td>Rs. 22,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4">Motorcycles</td>
-                            <td>Up to 150cc</td>
-                            <td>Rs. 1,500</td>
-                        </tr>
-                        <tr>
-                            <td>151cc to 250cc</td>
-                            <td>Rs. 2,500</td>
-                        </tr>
-                        <tr>
-                            <td>251cc to 400cc</td>
-                            <td>Rs. 4,500</td>
-                        </tr>
-                        <tr>
-                            <td>Above 401cc</td>
-                            <td>Rs. 8,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3">Electric Vehicles</td>
-                            <td>Up to 1000W</td>
-                            <td>Rs. 1,500</td>
-                        </tr>
-                        <tr>
-                            <td>1001W to 4000W</td>
-                            <td>Rs. 4,000</td>
-                        </tr>
-                        <tr>
-                            <td>Above 4001W</td>
-                            <td>Rs. 8,000</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</body>
+<!-- Electric Vehicles Tax Rates Section -->
+<div class="container">
+    <div class="section-title">2. Tax Rates of Electric Vehicles in Nepal</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Engine Capacity</th>
+                <th>Tax Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="4">Private Cars/Jeeps</td>
+                <td>Up to 1000cc</td>
+                <td>Rs. 4,000</td>
+            </tr>
+            <tr>
+                <td>1001cc to 1600cc</td>
+                <td>Rs. 6,000</td>
+            </tr>
+            <tr>
+                <td>1601cc to 2000cc</td>
+                <td>Rs. 14,000</td>
+            </tr>
+            <tr>
+                <td>Above 2000cc</td>
+                <td>Rs. 22,000</td>
+            </tr>
+            <tr>
+                <td rowspan="4">Motorcycles</td>
+                <td>Up to 150cc</td>
+                <td>Rs. 1,500</td>
+            </tr>
+            <tr>
+                <td>151cc to 250cc</td>
+                <td>Rs. 2,500</td>
+            </tr>
+            <tr>
+                <td>251cc to 400cc</td>
+                <td>Rs. 4,500</td>
+            </tr>
+            <tr>
+                <td>Above 401cc</td>
+                <td>Rs. 8,000</td>
+            </tr>
+            <tr>
+                <td rowspan="3">Electric Vehicles</td>
+                <td>Up to 1000W</td>
+                <td>Rs. 1,500</td>
+            </tr>
+            <tr>
+                <td>1001W to 4000W</td>
+                <td>Rs. 4,000</td>
+            </tr>
+            <tr>
+                <td>Above 4001W</td>
+                <td>Rs. 8,000</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 {% endblock body %}

@@ -1,19 +1,20 @@
-# In the main urls.py file (e.g., project_name/urls.py)
+
 from django.contrib import admin
 from django.urls import path
 from NepalLicenseScholar import views
 
 urlpatterns = [
-    # Admin URL, set a unique name
+    
     path('admin/', admin.site.urls, name='custom_admin'),  
 
-    # Your other URL patterns
+   
     path('', views.login_view, name='login'),
     path('home/', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+    path('study/', views.study, name='study'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('register/', views.register, name='register'),
+    path('signup/', views.signup, name='signup'),
     path('notice/', views.notice, name='notice'),
     path('login/', views.login_view, name='login'),
     path('api/question/', views.get_quiz, name='get_quiz'),

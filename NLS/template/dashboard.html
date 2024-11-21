@@ -35,12 +35,28 @@
         font-size: 1.5rem;
         font-weight: bold;
         text-align: center;
+        overflow: hidden;
+        /* Hide overflow for smooth scrolling effect */
     }
 
-    .section-header p {
+    .moving-text {
+        display: inline-block;
+        white-space: nowrap;
+        animation: scrollText 40s linear infinite;
         font-size: 1.2rem;
-        line-height: 1.6;
-        margin-top: 15px;
+        color: #ffffff;
+        padding: 10px 0;
+    }
+
+    /* Scrolling animation */
+    @keyframes scrollText {
+        0% {
+            transform: translateX(100%);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
     }
 
     /* Card Styling */
@@ -165,10 +181,10 @@
         </div>
     </div>
 
-    <!-- Introduction Section -->
+    <!-- Introduction Section with Scrolling Text -->
     <div class="section-header">
         <h3>Welcome to the Nepal License Scholar</h3>
-        <p class="intro-text">
+        <p class="moving-text">
             यातायात व्यवस्था विभाग नेपालको यातायात क्षेत्रलाई नियमन, विकास, व्यवस्थापन र सहजीकरणका लागि स्थापना भएको
             केन्द्रिय स्तरको सरकारी निकाय हो । यातायात व्यवस्था विभाग हाल नेपाल सरकार, भौतिक पुर्वाधार तथा यातायात
             मन्त्रालय मातहत रहेको छ । यातायात क्षेत्रको समग्र व्यवस्थापनका लागि वि.सं. २०४१ सालमा यो विभागको स्थापना
@@ -201,16 +217,15 @@
             </div>
             <div class="col-12 col-md-4 mb-3">
                 <div class="card">
-                    <img src="https://imgs.search.brave.com/2VA4-DyoecewUU9B-tP-kl9ZTur8oaz5JORX2LY3iPs/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4z/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvdGF4ZXMtMTQv/NjQvdmF0X3RheF90/YXhlc19kb2N1bWVu/dF90ZXh0LTUxMi5w/bmc"
-                        class="card-img-top" alt="Vehicle Tax Prices">
+                    <img src="https://imgs.search.brave.com/2VA4-DyoecewUU9B-tP-kl9ZTur8oaz5JORX2LY3iPs/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4z/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvZWR1Y2F0aW9u/LTE5NS8yMDAvRWR1/Y2F0aW9uLTAxLTIw/MC5wbmc"
+                        class="card-img-top" alt="Trial Test">
                     <div class="card-body">
-                        <h5 class="card-title">Vehicle Tax Prices</h5>
-                        <a href="/tax" class="btn btn-primary">View Tax Info</a>
+                        <h5 class="card-title">Trial Test</h5>
+                        <a href="#" class="btn btn-primary">Take the Trial</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock body %}

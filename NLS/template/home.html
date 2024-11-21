@@ -13,58 +13,129 @@
     .profile-container {
       display: flex;
       align-items: center;
-      gap: 10px;
-      color: white;
+      gap: 15px;
+      color: #fff;
     }
 
     .profile-image {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       background-color: #007bff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       color: white;
+      border: 2px solid #fff;
+      transition: all 0.3s ease-in-out;
     }
 
-    /* Navbar Styles */
+    .profile-image:hover {
+      transform: scale(1.1);
+    }
+
     .navbar {
-      padding: 10px 20px;
+      padding: 15px 25px;
+      background-color: #343a40;
     }
 
-    /* Footer Styles */
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.75rem;
+      color: #fff;
+    }
+
+    .nav-link {
+      font-size: 1.1rem;
+      margin-right: 15px;
+    }
+
+    .nav-link:hover {
+      color: #007bff;
+    }
+
+    .footer-link {
+      color: #adb5bd;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: #007bff;
+      text-decoration: underline;
+    }
+
     footer {
       background-color: #343a40;
       color: white;
-      padding: 50px 0;
+      padding: 60px 0;
+      border-top: 3px solid #007bff;
     }
 
     footer .social-icons a {
       font-size: 1.5rem;
       margin: 0 10px;
       color: white;
+      transition: color 0.3s ease;
     }
 
     footer .social-icons a:hover {
       color: #007bff;
     }
 
-    .footer-link {
-      color: white;
-      text-decoration: none;
+    .footer-logo {
+      font-size: 1.75rem;
+      font-weight: bold;
+      color: #007bff;
     }
 
-    .footer-link:hover {
-      text-decoration: underline;
+    .container {
+      padding: 0 15px;
+    }
+
+    /* Hero Section Styles */
+    .hero-section {
+      background: linear-gradient(to right, #007bff, #00c6ff);
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+      border-radius: 10px;
+      margin-top: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    .hero-section p {
+      font-size: 1.25rem;
+      margin-top: 15px;
+    }
+
+    .btn-primary-custom {
+      background-color: #007bff;
+      border-color: #007bff;
+      padding: 10px 25px;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+      transform: scale(1.05);
     }
   </style>
 </head>
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="/dashboard">Nepal License Scholar</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -75,6 +146,9 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" href="/notice">Notices</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/study">Study</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/test">Test</a>
@@ -102,11 +176,10 @@
     </div>
   </nav>
 
-  <!-- Main Content -->
   {% block body %}
   <div class="container mt-5">
-    <h1>Welcome to Nepal License Scholar</h1>
-    <p>Your go-to platform for license-related resources and information in Nepal.</p>
+    <h1>Explore the Features</h1>
+    <p>Browse through our rich content and resources designed to help you excel in your license exams.</p>
   </div>
   {% endblock body %}
 
@@ -114,14 +187,12 @@
   <footer>
     <div class="container">
       <div class="row">
-        <!-- About Us Section -->
         <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
-          <h5 class="font-weight-bold">Nepal License Scholar</h5>
+          <h5 class="font-weight-bold footer-logo">Nepal License Scholar</h5>
           <p>We are committed to providing the best resources for license scholars in Nepal. Stay connected with us for
             news, updates, and study materials.</p>
         </div>
 
-        <!-- Quick Links Section -->
         <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
           <h5 class="font-weight-bold">Quick Links</h5>
           <p><a href="/home" class="footer-link">Home</a></p>
@@ -130,7 +201,6 @@
           <p><a href="/tax" class="footer-link">Tax</a></p>
         </div>
 
-        <!-- Contact Section -->
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-4">
           <h5 class="font-weight-bold">Contact</h5>
           <p><i class="fa fa-home mr-3"></i>Meen Bhavan, Kathmandu</p>
@@ -138,7 +208,6 @@
           <p><i class="fa fa-phone mr-3"></i>+014574921, +014574922</p>
         </div>
 
-        <!-- Social Media Section -->
         <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
           <h5 class="font-weight-bold">Follow Us</h5>
           <div class="social-icons">
@@ -150,7 +219,6 @@
         </div>
       </div>
 
-      <!-- Footer Bottom -->
       <div class="row align-items-center justify-content-between">
         <div class="col-md-7 col-lg-8">
           <p>&copy; 2024 Nepal License Scholar. All rights reserved.</p>

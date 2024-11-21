@@ -1,7 +1,10 @@
 {% block body %}
 <style>
     body {
-        background: #f4f7fa;
+        background-image: url('https://img.freepik.com/free-vector/futuristic-poly-background_23-2148453991.jpg?t=st=1732174063~exp=1732177663~hmac=46c91444380010774d982fcf91ec090674051a4b347e1e212c5a4d08d5d4c071&w=996');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -14,23 +17,30 @@
     .login-container {
         width: 100%;
         max-width: 400px;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background-color: rgba(255, 255, 255, 0.85);
+        /* Semi-transparent background */
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         padding: 2rem;
+        text-align: center;
+    }
+
+    .logo-container img {
+        width: 80px;
+        height: auto;
+        margin-bottom: 1rem;
     }
 
     .login-header {
         font-size: 1.75rem;
         font-weight: 600;
-        text-align: center;
-        margin-bottom: 1.5rem;
         color: #007bff;
     }
 
     .form-group {
         margin-bottom: 1.25rem;
+        text-align: left;
     }
 
     .form-control {
@@ -40,6 +50,8 @@
         border-radius: 0.5rem;
         font-size: 1rem;
         transition: border-color 0.3s, box-shadow 0.3s;
+        background-color: rgba(255, 255, 255, 0.9);
+        /* Semi-transparent input fields */
     }
 
     .form-control:focus {
@@ -58,6 +70,7 @@
         font-size: 1rem;
         cursor: pointer;
         transition: background 0.3s;
+        margin-top: 1rem;
     }
 
     .btn-primary:hover {
@@ -77,15 +90,37 @@
         text-decoration: underline;
     }
 
-    @media (max-width: 576px) {
-        .login-container {
-            padding: 1.5rem;
-        }
+    .error-message {
+        color: #d9534f;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-top: 1rem;
+        padding: 0.75rem;
+        border: 1px solid #d9534f;
+        border-radius: 4px;
+        background-color: #f8d7da;
     }
 </style>
 
 <div class="login-container">
-    <div class="login-header">Login In</div>
+    <!-- Logo Section -->
+    <div class="logo-container">
+        <img src="https://ldims.nepalpolice.gov.np/images/trafficLogoFill.png" alt="Traffic Logo">
+    </div>
+
+    <!-- Header Section -->
+    <div class="login-header">Login</div>
+
+    <!-- Display error messages if any -->
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+        <div class="error-message">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Login Form -->
     <form method="post" novalidate>
         {% csrf_token %}
         <div class="form-group">
@@ -98,7 +133,7 @@
                 placeholder="Enter your password" required>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
-        <a href="/register" class="forgot-password">Sign Up</a>
+        <a href="/signup" class="forgot-password">Sign Up</a>
     </form>
 </div>
 {% endblock body %}
