@@ -4,7 +4,7 @@ from datetime import datetime
 from django.contrib import messages
 
 from django.core.exceptions import ValidationError
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -313,3 +313,6 @@ def submit_answers(request):
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
+def LogoutPage(request):
+    logout(request)
+    return redirect('login')
