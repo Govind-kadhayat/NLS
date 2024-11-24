@@ -3,6 +3,16 @@
 {% block title %} Questions {% endblock title %}
 
 {% block body %}
+<!-- Banner Section -->
+<div class="container-fluid p-0">
+    <div class="col-12">
+        <!-- Add a more attractive banner image -->
+        <img src="https://via.placeholder.com/1920x400.png?text=Quiz+Questions" alt="Quiz Banner"
+            class="img-fluid banner-img" />
+    </div>
+</div>
+
+<!-- Main Content Section -->
 <h2 class="text-center text-primary my-4">Questions</h2>
 
 <div id="app">
@@ -178,6 +188,14 @@
 </script>
 
 <style>
+    .banner-img {
+        width: 100%;
+        max-height: 400px;
+        /* Set a maximum height for the banner */
+        object-fit: cover;
+        /* Ensures the image covers the entire area */
+    }
+
     .badge-success {
         background-color: #28a745;
     }
@@ -190,4 +208,5 @@
         background-color: #dc3545;
     }
 </style>
+
 {% endblock body %}
