@@ -17,7 +17,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <strong>Question: [[ question.question ]]</strong>
-                                <!-- Display difficulty level here -->
+
                                 <span class="badge ml-2" :class="difficultyClass(question.difficulty)">
                                     [[ question.difficulty ]]
                                 </span>
@@ -63,7 +63,7 @@
     </div>
 </div>
 
-<!-- Add Vue.js -->
+
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
 <script>
     var app = new Vue({
@@ -83,8 +83,8 @@
                 currentPage: 1,
                 hasNextPage: false,
                 hasPreviousPage: false,
-                lastDifficulty: 'Easy', // Default starting difficulty
-                adaptiveMode: true // Enable adaptive mode
+                lastDifficulty: 'Easy',
+                adaptiveMode: true
             };
         },
         methods: {
@@ -95,7 +95,7 @@
                         this.questions = result.data;
                         this.hasNextPage = result.has_next;
                         this.hasPreviousPage = result.has_previous;
-                        this.totalQuestions += result.data.length; // Track total questions loaded
+                        this.totalQuestions += result.data.length;
                     });
             },
             loadNextPage() {
@@ -107,7 +107,7 @@
             loadPreviousPage() {
                 if (this.currentPage > 1) {
                     this.currentPage -= 1;
-                    this.getQuestions(); // Load questions of the current difficulty
+                    this.getQuestions();
                 }
             },
             selectAnswer(question_uid, selected_answer) {
@@ -139,30 +139,30 @@
             difficultyClass(difficulty) {
                 switch (difficulty) {
                     case 'Easy':
-                        return 'badge-success'; // Green for Easy
+                        return 'badge-success';
                     case 'Medium':
-                        return 'badge-warning'; // Yellow for Medium
+                        return 'badge-warning';
                     case 'Hard':
-                        return 'badge-danger'; // Red for Hard
+                        return 'badge-danger';
                     default:
                         return '';
                 }
             },
             evaluateAnswers() {
-                // Mock evaluation: Assume server validates correctness of answers
+
                 Object.keys(this.selectedAnswers).forEach(questionUid => {
-                    // Fetch question object and validate
+
                     let question = this.questions.find(q => q.uid === questionUid);
                     if (question && question.correctAnswer === this.selectedAnswers[questionUid]) {
                         this.totalCorrect++;
-                        this.lastDifficulty = question.difficulty; // Update last difficulty
+                        this.lastDifficulty = question.difficulty;
                     }
                 });
             },
             determineNextDifficulty() {
-                if (!this.adaptiveMode) return this.lastDifficulty; // Keep current difficulty in normal mode
+                if (!this.adaptiveMode) return this.lastDifficulty;
 
-                // Adaptive logic based on last difficulty and correctness
+
                 switch (this.lastDifficulty) {
                     case 'Easy':
                         return this.totalCorrect > 0 ? 'Medium' : 'Easy';
@@ -176,26 +176,25 @@
             }
         },
         created() {
-            this.getQuestions(); // Load initial questions with default difficulty
+            this.getQuestions();
         }
     });
 </script>
 
-<!-- Add CSS for difficulty display -->
 <style>
     .badge-success {
         background-color: #28a745;
-        /* Green for Easy */
+
     }
 
     .badge-warning {
         background-color: #ffc107;
-       
+
     }
 
     .badge-danger {
         background-color: #dc3545;
-      
+
     }
 </style>
 

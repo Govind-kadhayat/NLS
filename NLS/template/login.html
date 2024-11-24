@@ -51,7 +51,7 @@
         font-size: 1rem;
         transition: border-color 0.3s, box-shadow 0.3s;
         background-color: rgba(255, 255, 255, 0.9);
-        /* Semi-transparent input fields */
+     
     }
 
     .form-control:focus {
@@ -108,10 +108,10 @@
         <img src="https://ldims.nepalpolice.gov.np/images/trafficLogoFill.png" alt="Traffic Logo">
     </div>
 
-    <!-- Header Section -->
+
     <div class="login-header">Login</div>
 
-    <!-- Display error messages if any -->
+ 
     {% if messages %}
     <div>
         {% for message in messages %}
@@ -120,7 +120,7 @@
     </div>
     {% endif %}
 
-    <!-- Login Form -->
+
     <form method="post" novalidate>
         {% csrf_token %}
         <div class="form-group">

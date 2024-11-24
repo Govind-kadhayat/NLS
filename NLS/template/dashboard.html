@@ -3,20 +3,20 @@
 
 {% block body %}
 <style>
-    /* Carousel Styling */
+
     .carousel-item img {
         height: 450px;
-        /* Set height to manage image size */
+
         max-height: 450px;
         width: 100%;
-        /* Ensure image takes full width */
+     
         object-fit: cover;
         border-radius: 10px;
     }
 
     .carousel-inner {
         max-height: 450px;
-        /* Maintain the height of the carousel */
+ 
     }
 
     .carousel-indicators button {
@@ -27,7 +27,7 @@
         background-color: #007bff;
     }
 
-    /* Section Header Styling */
+
     .section-header {
         background-color: #4e73df;
         color: white;
@@ -36,7 +36,7 @@
         font-weight: bold;
         text-align: center;
         overflow: hidden;
-        /* Hide overflow for smooth scrolling effect */
+      
     }
 
     .moving-text {
@@ -48,7 +48,7 @@
         padding: 10px 0;
     }
 
-    /* Scrolling animation */
+
     @keyframes scrollText {
         0% {
             transform: translateX(100%);
@@ -59,7 +59,6 @@
         }
     }
 
-    /* Card Styling */
     .card {
         border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -73,12 +72,12 @@
 
     .card-img-top {
         height: 200px;
-        /* Fixed height for card images */
+      
         width: 100%;
-        /* Full width of the card */
+       
         object-fit: cover;
         border-radius: 10px 10px 0 0;
-        /* Rounded top corners */
+ 
     }
 
     .card-body {
@@ -105,7 +104,7 @@
         border-color: #004085;
     }
 
-    /* Intro Section Styling */
+
     .intro-text {
         font-size: 1.1rem;
         line-height: 1.8;
@@ -117,7 +116,6 @@
         padding-right: 30px;
     }
 
-    /* Responsive Layout */
     .container {
         max-width: 1200px;
     }
@@ -129,23 +127,23 @@
 
         .carousel-item img {
             height: 300px;
-            /* Adjust height for smaller screens */
+         
         }
 
         .card-title {
             font-size: 1rem;
         }
 
-        /* Smaller image size for cards on mobile */
+  
         .card-img-top {
             height: 150px;
-            /* Reduce card image height on smaller screens */
+       
         }
     }
 </style>
 
 <div class="container-fluid">
-    <!-- Carousel Section -->
+
     <div class="row mb-4">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -181,7 +179,7 @@
         </div>
     </div>
 
-    <!-- Introduction Section with Scrolling Text -->
+
     <div class="section-header">
         <h3>Welcome to the Nepal License Scholar</h3>
         <p class="moving-text">
@@ -192,7 +190,7 @@
         </p>
     </div>
 
-    <!-- Cards Section -->
+
     <div class="container text-center mt-4">
         <div class="row justify-content-center">
             <div class="col-12 col-md-4 mb-3">

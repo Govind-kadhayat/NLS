@@ -2,7 +2,7 @@
 {% block title %}Contact Us{% endblock title %}
 
 {% block body %}
-<!-- Top Banner Section -->
+
 <div class="container-fluid p-0">
     <div class="col-12">
         <img src="https://www.dotm.gov.np/Files/ImageSlider_16750549-0beb-4879-9726-3e2daae335168586.jpg"
@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<!-- Main Content Section -->
+
 <div class="container py-5">
     <div class="row align-items-center">
         <!-- Left Image Section -->
@@ -19,55 +19,55 @@
                 class="img-fluid rounded shadow" />
         </div> -->
 
-        <!-- Right Form Section -->
+     
         <div class="col-lg-6">
             <div class="form-container">
                 <h4 class="form-header text-center">Contact Us</h4>
                 <form method="post" action="{% url 'contact' %}">
                     {% csrf_token %}
 
-                    <!-- Full Name -->
+             
                     <div class="mb-3">
                         <label for="fullname" class="form-label">Full Name</label>
                         <input type="text" class="form-control" name="name" id="fullname"
                             placeholder="Enter your full name" required />
                     </div>
 
-                    <!-- Email -->
+          
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email"
                             required />
                     </div>
 
-                    <!-- Address -->
+         
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
                         <input type="text" class="form-control" name="address" id="address"
                             placeholder="Enter your address" />
                     </div>
 
-                    <!-- Contact Number -->
+
                     <div class="mb-3">
                         <label for="contact-no" class="form-label">Contact No.</label>
                         <input type="text" class="form-control" name="phone" id="contact-no"
                             placeholder="Enter your contact number" />
                     </div>
 
-                    <!-- Feedback -->
+     
                     <div class="mb-3">
                         <label for="complain-box" class="form-label">Feedback/Complaint</label>
                         <textarea class="form-control" id="complain-box" name="desc" rows="4"
                             placeholder="Write your message here..."></textarea>
                     </div>
 
-                    <!-- Date of Birth -->
+   
                     <div class="mb-3">
                         <label for="dob" class="form-label">Date of Birth</label>
                         <input type="datetime-local" class="form-control" name="date" id="dob" />
                     </div>
 
-                    <!-- Submit Button -->
+         
                     <div class="text-center">
                         <button type="submit" class="btn btn-success w-100">Send Feedback</button>
                     </div>

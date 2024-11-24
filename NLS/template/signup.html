@@ -89,8 +89,6 @@
 
     <div class="container">
         <h2>Create an Account</h2>
-
-        <!-- Display success message as pop-up using Bootstrap alert -->
         {% if messages %}
         <div class="message">
             {% for message in messages %}
@@ -104,7 +102,7 @@
         </div>
         {% endif %}
 
-        <!-- Signup form -->
+     
         <form method="POST">
             {% csrf_token %}
 
