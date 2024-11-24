@@ -2,10 +2,9 @@ from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from datetime import datetime
 from django.contrib import messages
-
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt  # Make sure this import is here
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
@@ -15,23 +14,23 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
 from django.contrib import messages
-from.models import *
+from .models import *
 import json
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def home(request):
     return render(request, 'home.html')
-
+    
+@login_required
 def about(request):
     return render(request, "about.html")
 
-
+@login_required
 def contact(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -50,11 +49,12 @@ def contact(request):
         new_contact.save()
     return render(request, 'contact.html')
 
-# Dashboard Page
+
+@login_required(login_url='login')
 def dashboard(request):
     return render(request, "dashboard.html")
 
-# Login View
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -106,7 +106,7 @@ def signup(request):
         
     return render(request, 'signup.html')
 
-
+@login_required
 def notice(request):
     return render(request, "notice.html")
 
@@ -154,18 +154,19 @@ def get_quiz(request):
 def side_bar(request):
     return render(request, "main/side_bar.html")
 
-
+@login_required
 def profile(request):
     return render(request, "main/profile.html")
 
-
+@login_required
 def study(request):
     return render(request, "study.html")
 
-
+@login_required
 def tax(request):
     return render(request, "tax.html")
 
+@login_required
 def test(request):
     context = {'categories': Category.objects.all()}
     if request.GET.get('category'):

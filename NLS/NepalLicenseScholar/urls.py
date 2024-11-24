@@ -25,5 +25,7 @@ urlpatterns = [
     path('tax/', views.tax, name='tax'),
     path('test/', views.test, name='test'),
     path('testq/', views.testq, name='testq'),
-    path('logout/',views.LogoutPage,name='logout'),
+    path('logout', views.LogoutPage,name='logout'),
+
+
 ]
