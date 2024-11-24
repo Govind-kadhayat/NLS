@@ -13,11 +13,10 @@
                 <h3 class="mb-4">Answer the Questions</h3>
                 <form method="post" class="bg-light p-4 rounded shadow-sm">
                     {% csrf_token %}
-                    <div v-for="question in questions" :key="question.uid" class="mb-4">
+                    <div v-for="question in currentQuestions" :key="question.uid" class="mb-4">
                         <div class="card">
                             <div class="card-header">
                                 <strong>Question: [[ question.question ]]</strong>
-
                                 <span class="badge ml-2" :class="difficultyClass(question.difficulty)">
                                     [[ question.difficulty ]]
                                 </span>
@@ -59,10 +58,8 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
 <script>
@@ -72,42 +69,50 @@
         data() {
             return {
                 category: '{{ category }}',
-                questions: [],
                 selectedAnswers: {},
                 showResult: false,
-                totalQuestions: 0,
+                totalQuestions: 16,
                 totalCorrect: 0,
                 totalMarks: 0,
-                totalAvailableMarks: 0,
+                totalAvailableMarks: 16,
                 username: '',
-                currentPage: 1,
-                hasNextPage: false,
-                hasPreviousPage: false,
+                currentRound: 1,
+                roundQuestions: 4,
+                currentQuestions: [],
                 lastDifficulty: 'Easy',
-                adaptiveMode: true
+                adaptiveMode: true,
             };
         },
         methods: {
             getQuestions(difficulty = this.lastDifficulty) {
-                fetch(`/api/question/?category=${this.category}&difficulty=${difficulty}&page=${this.currentPage}`)
+                fetch(`/api/question/?category=${this.category}&difficulty=${difficulty}&page=${this.currentRound}`)
                     .then(response => response.json())
                     .then(result => {
-                        this.questions = result.data;
+                        this.currentQuestions = result.data.slice(0, this.roundQuestions);
                         this.hasNextPage = result.has_next;
                         this.hasPreviousPage = result.has_previous;
-                        this.totalQuestions += result.data.length;
+
+                        // End quiz if final round reached
+                        if (this.currentRound >= Math.ceil(this.totalQuestions / this.roundQuestions)) {
+                            this.hasNextPage = false;
+                        }
                     });
             },
             loadNextPage() {
                 this.evaluateAnswers();
-                this.currentPage += 1;
-                let nextDifficulty = this.determineNextDifficulty();
-                this.getQuestions(nextDifficulty);
+                this.currentRound += 1;
+
+                if (this.currentRound <= Math.ceil(this.totalQuestions / this.roundQuestions)) {
+                    let nextDifficulty = this.determineNextDifficulty();
+                    this.getQuestions(nextDifficulty);
+                } else {
+                    this.submitAnswers();
+                }
             },
             loadPreviousPage() {
-                if (this.currentPage > 1) {
-                    this.currentPage -= 1;
-                    this.getQuestions();
+                if (this.currentRound > 1) {
+                    this.currentRound -= 1;
+                    this.getQuestions(this.lastDifficulty);
                 }
             },
             selectAnswer(question_uid, selected_answer) {
@@ -134,44 +139,35 @@
                         this.totalAvailableMarks = result.total_available_marks;
                         this.showResult = true;
                     })
-                    .catch(error => console.error(error));
+                    .catch(error => console.error('Error:', error));
             },
             difficultyClass(difficulty) {
                 switch (difficulty) {
-                    case 'Easy':
-                        return 'badge-success';
-                    case 'Medium':
-                        return 'badge-warning';
-                    case 'Hard':
-                        return 'badge-danger';
-                    default:
-                        return '';
+                    case 'Easy': return 'badge-success';
+                    case 'Medium': return 'badge-warning';
+                    case 'Hard': return 'badge-danger';
+                    default: return '';
                 }
             },
             evaluateAnswers() {
-
+                let correctInRound = 0;
                 Object.keys(this.selectedAnswers).forEach(questionUid => {
-
-                    let question = this.questions.find(q => q.uid === questionUid);
+                    let question = this.currentQuestions.find(q => q.uid === questionUid);
                     if (question && question.correctAnswer === this.selectedAnswers[questionUid]) {
-                        this.totalCorrect++;
-                        this.lastDifficulty = question.difficulty;
+                        correctInRound++;
                     }
                 });
+                this.totalCorrect += correctInRound;
+                this.totalMarks += correctInRound;
             },
             determineNextDifficulty() {
                 if (!this.adaptiveMode) return this.lastDifficulty;
 
-
                 switch (this.lastDifficulty) {
-                    case 'Easy':
-                        return this.totalCorrect > 0 ? 'Medium' : 'Easy';
-                    case 'Medium':
-                        return this.totalCorrect > 0 ? 'Hard' : 'Easy';
-                    case 'Hard':
-                        return this.totalCorrect > 0 ? 'Hard' : 'Medium';
-                    default:
-                        return 'Easy';
+                    case 'Easy': return this.totalCorrect >= 3 ? 'Medium' : 'Easy';
+                    case 'Medium': return this.totalCorrect >= 3 ? 'Hard' : 'Easy';
+                    case 'Hard': return this.totalCorrect >= 3 ? 'Hard' : 'Medium';
+                    default: return 'Easy';
                 }
             }
         },
@@ -184,18 +180,14 @@
 <style>
     .badge-success {
         background-color: #28a745;
-
     }
 
     .badge-warning {
         background-color: #ffc107;
-
     }
 
     .badge-danger {
         background-color: #dc3545;
-
     }
 </style>
-
 {% endblock body %}

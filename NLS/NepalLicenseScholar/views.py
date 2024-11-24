@@ -22,6 +22,8 @@ import json
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
+user_question_progress = {}
+
 @login_required
 def home(request):
     return render(request, 'home.html')
@@ -178,49 +180,80 @@ def testq(request):
     context = {'category': request.GET.get('category')}
     return render(request, 'testq.html', context)
 
-def get_next_question(category, difficulty):
+def get_next_question(category, difficulty, served_questions):
+    """
+    Get the next available question based on the current category, difficulty level, and already served questions.
+    """
+    # Difficulty map to switch difficulty based on performance
     difficulty_map = {
         'Easy': 'Medium',
         'Medium': 'Hard',
-        'Hard': 'Medium',  
+        'Hard': 'Hard',  # Hard stays at Hard if answered correctly
     }
 
-    questions = Question.objects.filter(category__category_name=category, difficulty=difficulty).order_by('?')
+    # Get the next question based on the current category and difficulty
+    questions = Question.objects.filter(
+        category__category_name=category, difficulty=difficulty
+    ).exclude(uid__in=served_questions).order_by('?')  # Ensure not to serve already served questions
 
     if questions.exists():
         return questions.first()
 
-    
+    # If no question found for the current difficulty, fall back to next level difficulty
     fallback_difficulty = difficulty_map.get(difficulty, 'Easy')
-    fallback_questions = Question.objects.filter(category__category_name=category, difficulty=fallback_difficulty).order_by('?')
+    fallback_questions = Question.objects.filter(
+        category__category_name=category, difficulty=fallback_difficulty
+    ).exclude(uid__in=served_questions).order_by('?')
+    
     return fallback_questions.first() if fallback_questions.exists() else None
+
+
+
+
+
 @csrf_exempt
 def adaptive_question_view(request):
+    """
+    Endpoint to serve questions dynamically based on the user's performance and ensure 16 questions are shown in total.
+    """
     if request.method == 'POST':
-        import json
         data = json.loads(request.body)
 
+        # Fetch necessary details from the request
+        user_id = request.user.id  # Get the logged-in user's ID
         category = data.get('category', '')
-        previous_difficulty = data.get('previous_difficulty', 'Easy')
-        correct = data.get('correct', True) 
+        previous_difficulty = data.get('previous_difficulty', 'Easy')  # Default to Easy for the first round
+        correct = data.get('correct', True)  # Default is correct answer, unless specified otherwise
 
-       
+        # Track questions served for the current user
+        served_questions = user_question_progress.get(user_id, [])
+
+        # If the user has already seen 16 questions, end the quiz
+        if len(served_questions) >= 16:
+            return JsonResponse({'success': False, 'message': 'You have completed all 16 questions.'})
+
+        # Determine the next question's difficulty based on correctness
         if correct:
             next_difficulty = {
                 'Easy': 'Medium',
                 'Medium': 'Hard',
-                'Hard': 'Hard',
+                'Hard': 'Hard',  # Hard stays at Hard if answered correctly
             }.get(previous_difficulty, 'Easy')
         else:
             next_difficulty = {
                 'Hard': 'Medium',
                 'Medium': 'Easy',
-                'Easy': 'Easy',
+                'Easy': 'Easy',  # Easy stays at Easy if answered incorrectly
             }.get(previous_difficulty, 'Easy')
 
-        next_question = get_next_question(category, next_difficulty)
+        # Get the next question based on the adjusted difficulty
+        next_question = get_next_question(category, next_difficulty, served_questions)
 
         if next_question:
+            # Add the question to the list of served questions for the user
+            served_questions.append(next_question.uid)
+            user_question_progress[user_id] = served_questions  # Update progress
+
             return JsonResponse({
                 'success': True,
                 'question': {
@@ -238,9 +271,11 @@ def adaptive_question_view(request):
 
 
 
-
-@login_required
+@csrf_exempt
 def submit_answers(request):
+    """
+    Endpoint to handle submission of answers and calculate total score.
+    """
     if request.method == 'POST':
         data = json.loads(request.body)
         answers = data.get('answers', {})
@@ -248,42 +283,7 @@ def submit_answers(request):
         total_questions = 0
         correct_answers = 0
         total_marks = 0
-        total_available_marks = 0 
-
-        
-        for question_uid, selected_answer in answers.items():
-            try:
-                question = Question.objects.get(uid=question_uid)
-                correct_answer = Answer.objects.filter(question=question, is_correct=True).first()
-
-                total_questions += 1
-                total_available_marks += question.marks  
-
-                if correct_answer and correct_answer.answer == selected_answer:
-                    correct_answers += 1
-                    total_marks += question.marks  
-            except Question.DoesNotExist:
-                continue
-
-        
-        result = {
-            'username': request.user.username,
-            'total_questions': total_questions,
-            'correct_answers': correct_answers,
-            'total_marks': total_marks,
-            'total_available_marks': total_available_marks  
-        }
-
-        return JsonResponse(result)
-
-    return JsonResponse({"error": "Invalid request"}, status=400)
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        answers = data.get('answers', {})
-
-        total_questions = 0
-        correct_answers = 0
-        total_marks = 0
+        total_available_marks = 0
 
         # Loop through the submitted answers and check correctness
         for question_uid, selected_answer in answers.items():
@@ -292,24 +292,30 @@ def submit_answers(request):
                 correct_answer = Answer.objects.filter(question=question, is_correct=True).first()
 
                 total_questions += 1
+                total_available_marks += question.marks  # Add marks for each question
 
                 if correct_answer and correct_answer.answer == selected_answer:
                     correct_answers += 1
-                    total_marks += question.marks  # Increment the marks if the answer is correct
+                    total_marks += question.marks  # Add marks if the answer is correct
             except Question.DoesNotExist:
                 continue
 
-        # Prepare the result
+        # Prepare the result with total correct answers and total marks
         result = {
-            'username': request.user.username,  # Add the username here
+            'username': request.user.username,
             'total_questions': total_questions,
             'correct_answers': correct_answers,
-            'total_marks': total_marks
+            'total_marks': total_marks,
+            'total_available_marks': total_available_marks
         }
 
         return JsonResponse(result)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+
+
 
 def LogoutPage(request):
     logout(request)
