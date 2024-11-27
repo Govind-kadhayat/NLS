@@ -1,6 +1,28 @@
 {% extends 'home.html' %}
-{% block title %} Test{% endblock title %} {%block body %}
+
+{% block title %} Test{% endblock title %}
+
+{% block body %}
+<!-- Banner Section with Custom Image -->
+<div class="container-fluid p-0">
+    <div class="col-12">
+        <img src="https://c7.alamy.com/comp/2J3D7RB/driving-test-banner-education-in-driver-school-online-quiz-and-pass-exam-vector-landing-page-with-isometric-illustration-of-laptop-with-test-car-o-2J3D7RB.jpg"
+            alt="Quiz Banner" class="img-fluid banner-img" />
+    </div>
+</div>
+
+<!-- Custom Styles for Form -->
 <style>
+    /* Banner Image Styles */
+    .banner-img {
+        width: 100%;
+        /* Ensure it takes up the full width of the container */
+        height: 400px;
+        /* Set a fixed height for the banner */
+        object-fit: cover;
+        /* Ensures the image covers the entire space without stretching */
+    }
+
     .container.form-container {
         max-width: 600px;
         margin: 0 auto;
@@ -10,14 +32,12 @@
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-
     .container.form-container label {
         font-weight: bold;
         color: #495057;
         display: block;
         margin-bottom: 0.5rem;
     }
-
 
     .container.form-container .form-control {
         height: 50px;
@@ -53,32 +73,22 @@
     }
 </style>
 
-<body>
-
-
-
-    <body>
-        <div class="container form-container">
-            <form>
-                <div class="row mt-5 mb-5 pt-5">
-                    <label for="category" class="form-label">Select the Category</label>
-                    <select class="form-control" name="category" id="category">
-                        <option disabled selected>Select the Category</option>
-                        {% for category in categories %}
-                        <option value="{{ category.category_name }}">{{ category.category_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-danger mb-3">Submit</button>
-                </div>
-            </form>
+<!-- Main Form -->
+<div class="container form-container">
+    <form>
+        <div class="row mt-5 mb-5 pt-5">
+            <label for="category" class="form-label">Select the Category</label>
+            <select class="form-control" name="category" id="category">
+                <option disabled selected>Select the Category</option>
+                {% for category in categories %}
+                <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                {% endfor %}
+            </select>
         </div>
-    </body>
-
-
-</body>
-
-
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger mb-3">Submit</button>
+        </div>
+    </form>
+</div>
 
 {% endblock body %}
